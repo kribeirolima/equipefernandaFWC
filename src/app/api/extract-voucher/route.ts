@@ -14,6 +14,34 @@ Se for HOSPEDAGEM:
 
 Retorne APENAS o JSON, sem texto adicional.`;
 
+async function uploadFile(buffer: Buffer, mimeType: string): Promise<string> {
+  const boundary = "gemini_upload_boundary";
+  const metadata = JSON.stringify({ file: { display_name: "voucher" } });
+
+  const body = Buffer.concat([
+    Buffer.from(`--${boundary}\r\nContent-Type: application/json\r\n\r\n${metadata}\r\n--${boundary}\r\nContent-Type: ${mimeType}\r\n\r\n`),
+    buffer,
+    Buffer.from(`\r\n--${boundary}--`),
+  ]);
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/upload/v1beta/files?key=${GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
+      body,
+    }
+  );
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Upload falhou: ${err}`);
+  }
+
+  const json = await res.json() as { file: { uri: string } };
+  return json.file.uri;
+}
+
 export async function POST(request: Request) {
   if (!GEMINI_API_KEY) {
     return NextResponse.json({ error: "GEMINI_API_KEY não configurada" }, { status: 500 });
@@ -35,14 +63,22 @@ export async function POST(request: Request) {
   }
 
   const arrayBuffer = await file.arrayBuffer();
-  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  const buffer = Buffer.from(arrayBuffer);
+
+  let part: Record<string, unknown>;
+
+  if (mimeType === "application/pdf") {
+    // PDFs precisam ser enviados via Files API
+    const fileUri = await uploadFile(buffer, mimeType);
+    part = { file_data: { mime_type: mimeType, file_uri: fileUri } };
+  } else {
+    // Imagens podem usar inline base64
+    part = { inline_data: { mime_type: mimeType, data: buffer.toString("base64") } };
+  }
 
   const payload = {
     contents: [{
-      parts: [
-        { inline_data: { mime_type: mimeType, data: base64 } },
-        { text: PROMPT },
-      ],
+      parts: [part, { text: PROMPT }],
     }],
   };
 
@@ -51,10 +87,13 @@ export async function POST(request: Request) {
     { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }
   );
 
-  if (!res.ok) return NextResponse.json({ error: "erro na API Gemini" }, { status: 502 });
+  if (!res.ok) {
+    const err = await res.text();
+    return NextResponse.json({ error: `Erro na API Gemini: ${err}` }, { status: 502 });
+  }
 
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text as string | undefined;
+  const data = await res.json() as { candidates?: { content: { parts: { text: string }[] } }[] };
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) return NextResponse.json({ error: "resposta vazia do Gemini" }, { status: 502 });
 
   const jsonMatch = text.match(/\{[\s\S]*\}/);
