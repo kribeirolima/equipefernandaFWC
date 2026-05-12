@@ -41,15 +41,22 @@ export function TravelSection({ kind, storageKey, group }: Props) {
     setParsingName(file.name.replace(/\.pdf$/i, ""));
 
     try {
-      const form = new FormData();
-      form.append("file", file);
-      form.append("type", tipo);
-      form.append("group", group);
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve((reader.result as string).split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
 
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
+      const timeout = setTimeout(() => controller.abort(), 55000);
 
-      const res = await fetch("/api/parse-pdf", { method: "POST", body: form, signal: controller.signal });
+      const res = await fetch("/api/parse-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ base64, mimeType: file.type, type: tipo, group }),
+        signal: controller.signal,
+      });
       clearTimeout(timeout);
 
       const json = await res.json() as { blocks?: Record<string, string>[]; error?: string };
