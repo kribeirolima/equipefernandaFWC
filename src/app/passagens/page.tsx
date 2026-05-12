@@ -1,7 +1,5 @@
 "use client";
-import { useCitySelector } from "@/hooks/useCitySelector";
-import { CitySelector } from "@/components/passagens/CitySelector";
-import { TravelCard } from "@/components/passagens/TravelCard";
+import { VoucherCard } from "@/components/passagens/VoucherCard";
 
 const GROUPS = [
   { id: "fg",  name: "Fernanda",                  avatar: "FG",  avatarBg: "rgba(139,92,246,0.1)", avatarColor: "#7C3AED" },
@@ -10,22 +8,18 @@ const GROUPS = [
 ];
 
 export default function PassagensPage() {
-  const { city, selectCity } = useCitySelector();
-
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 space-y-5">
       <div>
         <h1 className="text-[18px] font-medium text-gray-900">Passagens e Hospedagens</h1>
         <p className="text-[13px] text-gray-400 mt-0.5">
-          Preencha os dados · clique &ldquo;ok, salvar&rdquo; · blocos ficam confirmados no navegador
+          Envie o PDF do voucher · as informações aparecem automaticamente
         </p>
       </div>
 
-      <CitySelector city={city} onSelect={selectCity} />
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-start">
         {GROUPS.map((g) => (
-          <TravelCard key={g.id} group={g} city={city} />
+          <VoucherCard key={g.id} group={g} />
         ))}
       </div>
     </div>
