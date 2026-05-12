@@ -163,3 +163,30 @@
 .leaflet-control-attribution a {
   color: #6B7280 !important;
 }
+
+/* ── Ordem do Dia — print utilities ──────────────────────────── */
+.od-print-only { display: none; }
+
+@media print {
+  /* Hide app chrome */
+  header, aside, nav { display: none !important; }
+
+  /* Remove layout offsets */
+  body { background: white !important; padding: 0 !important; }
+  .min-h-screen { padding-top: 0 !important; min-height: 0 !important; }
+  main { margin-left: 0 !important; padding: 0 !important; }
+
+  /* Interactive elements */
+  .od-screen-only { display: none !important; }
+
+  /* Print-only elements */
+  .od-print-only { display: block !important; }
+
+  /* Section cards */
+  section[id] { break-inside: avoid; margin-bottom: 10pt; }
+
+  @page {
+    margin: 1.5cm;
+    @bottom-right { content: "Pág. " counter(page) " de " counter(pages); font-size: 8pt; color: #666; }
+  }
+}
