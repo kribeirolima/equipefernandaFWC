@@ -39,15 +39,20 @@ export function TravelSection({ kind, storageKey }: Props) {
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/extract-voucher", { method: "POST", body: formData });
+      if (!res.ok) {
+        let msg = `Erro ${res.status}`;
+        try { const j = await res.json() as Record<string, string>; msg = j.error ?? msg; } catch {}
+        setUploadError(msg);
+        return;
+      }
       const json = await res.json() as Record<string, string>;
-      if (!res.ok) { setUploadError(json.error ?? "Erro ao processar voucher"); return; }
       const keys = kind === "passagem" ? PASS_KEYS : HOSP_KEYS;
       const data: Record<string, string> = {};
       keys.forEach((k) => { data[k] = json[k] ?? ""; });
       addConfirmed(data);
       setTimeout(() => endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 50);
-    } catch {
-      setUploadError("Erro ao enviar arquivo");
+    } catch (err) {
+      setUploadError("Erro ao enviar arquivo: " + String(err));
     } finally {
       setUploading(false);
     }
