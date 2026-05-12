@@ -1,217 +1,61 @@
 "use client";
 import { useState } from "react";
 import { Check } from "lucide-react";
-import type { FlightFields, HospedagemFields, BlockFields } from "@/hooks/useTravelBlock";
 
-function Field({
-  label,
-  value,
-  placeholder,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  placeholder: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div className="flex flex-col" style={{ gap: "3px" }}>
-      <label
-        style={{
-          fontSize: "9px",
-          fontWeight: 500,
-          color: "#9CA3AF",
-          textTransform: "uppercase",
-          letterSpacing: "0.04em",
-        }}
-      >
-        {label}
-      </label>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        style={{
-          border: "0.5px solid #E5E7EB",
-          borderRadius: "4px",
-          padding: "4px 6px",
-          fontSize: "11px",
-          color: "#111827",
-          background: "#FFFFFF",
-          outline: "none",
-          width: "100%",
-        }}
-        className="placeholder:text-[#D1D5DB] placeholder:italic transition-[border-color] duration-100"
-        onFocus={(e) => (e.currentTarget.style.border = "1px solid #1A7A3C")}
-        onBlur={(e) => (e.currentTarget.style.border = "0.5px solid #E5E7EB")}
-      />
-    </div>
-  );
+const FLIGHT_FIELDS = [
+  { type: "full" as const, key: "data",       label: "Data",                placeholder: "ex: 12 jun 2026"           },
+  { type: "pair" as const, keys: ["saida",      "chegada"],     labels: ["Horário saída",     "Horário chegada"],   placeholders: ["ex: 08h45",   "ex: 14h20"]    },
+  { type: "pair" as const, keys: ["aero_orig",  "cidade_orig"], labels: ["Aeroporto saída",   "Cidade saída"],      placeholders: ["ex: GRU",     "ex: São Paulo"] },
+  { type: "pair" as const, keys: ["aero_dest",  "cidade_dest"], labels: ["Aeroporto destino", "Cidade destino"],    placeholders: ["ex: JFK",     "ex: Nova York"] },
+];
+
+const HOSP_FIELDS = [
+  { type: "full" as const, key: "local",   label: "Local / Endereço", placeholder: "ex: Hotel Renata — 194 Park Ave" },
+  { type: "pair" as const, keys: ["checkin",  "checkout"], labels: ["Check-in", "Check-out"], placeholders: ["ex: 12 jun", "ex: 18 jul"] },
+  { type: "full" as const, key: "cidade",  label: "Cidade / País",    placeholder: "ex: Nova York, EUA"              },
+];
+
+const iCls = "w-full rounded-md border border-[#E5E7EB] bg-white px-2.5 py-1.5 text-[11px] text-gray-900 placeholder:text-[#D1D5DB] outline-none transition-colors focus:border-[#1A7A3C]";
+const lCls = "block text-[9px] uppercase tracking-widest text-[#9CA3AF] mb-1";
+
+interface Props {
+  kind: "passagem" | "hospedagem";
+  initialValues: Record<string, string>;
+  onSave: (values: Record<string, string>) => void;
 }
 
-function FlightForm({
-  data,
-  onChange,
-}: {
-  data: FlightFields;
-  onChange: (key: keyof FlightFields, value: string) => void;
-}) {
-  return (
-    <div className="flex flex-col" style={{ gap: "7px" }}>
-      <Field
-        label="Data"
-        value={data.data}
-        placeholder="ex: 12 jun 2026"
-        onChange={(v) => onChange("data", v)}
-      />
-      <div className="grid grid-cols-2" style={{ gap: "5px" }}>
-        <Field
-          label="Horário saída"
-          value={data.saida}
-          placeholder="ex: 08h45"
-          onChange={(v) => onChange("saida", v)}
-        />
-        <Field
-          label="Horário chegada"
-          value={data.chegada}
-          placeholder="ex: 14h20"
-          onChange={(v) => onChange("chegada", v)}
-        />
-      </div>
-      <div className="grid grid-cols-2" style={{ gap: "5px" }}>
-        <Field
-          label="Aeroporto saída"
-          value={data.aero_orig}
-          placeholder="ex: GRU"
-          onChange={(v) => onChange("aero_orig", v)}
-        />
-        <Field
-          label="Cidade saída"
-          value={data.cidade_orig}
-          placeholder="ex: São Paulo"
-          onChange={(v) => onChange("cidade_orig", v)}
-        />
-      </div>
-      <div className="grid grid-cols-2" style={{ gap: "5px" }}>
-        <Field
-          label="Aeroporto destino"
-          value={data.aero_dest}
-          placeholder="ex: JFK"
-          onChange={(v) => onChange("aero_dest", v)}
-        />
-        <Field
-          label="Cidade destino"
-          value={data.cidade_dest}
-          placeholder="ex: Nova York"
-          onChange={(v) => onChange("cidade_dest", v)}
-        />
-      </div>
-    </div>
-  );
-}
-
-function HospedagemForm({
-  data,
-  onChange,
-}: {
-  data: HospedagemFields;
-  onChange: (key: keyof HospedagemFields, value: string) => void;
-}) {
-  return (
-    <div className="flex flex-col" style={{ gap: "7px" }}>
-      <Field
-        label="Local / endereço"
-        value={data.local}
-        placeholder="ex: Hotel Renata — 194 Park Ave"
-        onChange={(v) => onChange("local", v)}
-      />
-      <div className="grid grid-cols-2" style={{ gap: "5px" }}>
-        <Field
-          label="Check-in"
-          value={data.checkin}
-          placeholder="ex: 12 jun"
-          onChange={(v) => onChange("checkin", v)}
-        />
-        <Field
-          label="Check-out"
-          value={data.checkout}
-          placeholder="ex: 18 jul"
-          onChange={(v) => onChange("checkout", v)}
-        />
-      </div>
-      <Field
-        label="Cidade / País"
-        value={data.cidade}
-        placeholder="ex: Nova York, EUA"
-        onChange={(v) => onChange("cidade", v)}
-      />
-    </div>
-  );
-}
-
-export function EditForm({
-  blockType,
-  initialData,
-  onConfirm,
-}: {
-  blockType: "flight" | "hospedagem";
-  initialData: BlockFields;
-  onConfirm: (data: BlockFields) => void;
-}) {
-  const [form, setForm] = useState<BlockFields>(initialData);
-
-  const update = (key: string, value: string) =>
-    setForm((prev) => ({ ...prev, [key]: value }));
+export function EditForm({ kind, initialValues, onSave }: Props) {
+  const [values, setValues] = useState<Record<string, string>>(initialValues);
+  const set = (key: string, val: string) => setValues((p) => ({ ...p, [key]: val }));
+  const fields = kind === "passagem" ? FLIGHT_FIELDS : HOSP_FIELDS;
 
   return (
-    <div
-      style={{
-        background: "#FFFFFF",
-        border: "0.5px solid #E5E7EB",
-        borderRadius: "7px",
-        padding: "9px 10px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-      }}
-    >
-      {blockType === "flight" ? (
-        <FlightForm
-          data={form as FlightFields}
-          onChange={(k, v) => update(k, v)}
-        />
-      ) : (
-        <HospedagemForm
-          data={form as HospedagemFields}
-          onChange={(k, v) => update(k, v)}
-        />
-      )}
-
+    <div className="space-y-2 p-3">
+      {fields.map((row, i) => {
+        if (row.type === "full") {
+          return (
+            <div key={i}>
+              <label className={lCls}>{row.label}</label>
+              <input type="text" value={values[row.key] ?? ""} onChange={(e) => set(row.key, e.target.value)} placeholder={row.placeholder} className={iCls} />
+            </div>
+          );
+        }
+        return (
+          <div key={i} className="grid grid-cols-2 gap-1.5">
+            {row.keys.map((k, ki) => (
+              <div key={k}>
+                <label className={lCls}>{row.labels[ki]}</label>
+                <input type="text" value={values[k] ?? ""} onChange={(e) => set(k, e.target.value)} placeholder={row.placeholders[ki]} className={iCls} />
+              </div>
+            ))}
+          </div>
+        );
+      })}
       <button
-        onClick={() => onConfirm(form)}
-        style={{
-          width: "100%",
-          background: "#1A7A3C",
-          color: "#FFFFFF",
-          borderRadius: "5px",
-          padding: "5px",
-          fontSize: "11px",
-          fontWeight: 500,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "5px",
-          border: "none",
-          cursor: "pointer",
-          transition: "background 0.1s",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = "#166534")}
-        onMouseLeave={(e) => (e.currentTarget.style.background = "#1A7A3C")}
-        onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.98)")}
-        onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        onClick={() => onSave(values)}
+        className="mt-1 w-full flex items-center justify-center gap-1.5 rounded-md bg-[#1A7A3C] px-3 py-2 text-[11px] font-medium text-white hover:bg-[#166534] transition-colors"
       >
-        <Check style={{ width: 11, height: 11 }} />
+        <Check className="h-3 w-3" />
         ok, salvar
       </button>
     </div>
