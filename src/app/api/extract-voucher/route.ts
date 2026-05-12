@@ -16,26 +16,43 @@ Se for HOSPEDAGEM:
 Retorne APENAS o JSON, sem texto adicional.`;
 
 async function uploadToGemini(buffer: Buffer, mimeType: string): Promise<string> {
-  const boundary = "gemini_bound";
-  const meta = JSON.stringify({ file: { display_name: "voucher" } });
-
-  const body = Buffer.concat([
-    Buffer.from(`--${boundary}\r\nContent-Type: application/json; charset=utf-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: ${mimeType}\r\n\r\n`),
-    buffer,
-    Buffer.from(`\r\n--${boundary}--`),
-  ]);
-
-  const res = await fetch(
+  // Step 1: iniciar upload resumível
+  const initRes = await fetch(
     `https://generativelanguage.googleapis.com/upload/v1beta/files?key=${GEMINI_API_KEY}`,
     {
       method: "POST",
-      headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
-      body,
+      headers: {
+        "X-Goog-Upload-Protocol": "resumable",
+        "X-Goog-Upload-Command": "start",
+        "X-Goog-Upload-Header-Content-Length": buffer.byteLength.toString(),
+        "X-Goog-Upload-Header-Content-Type": mimeType,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ file: { display_name: "voucher" } }),
     }
   );
 
-  const text = await res.text();
-  if (!res.ok) throw new Error(`Gemini upload falhou (${res.status}): ${text.slice(0, 300)}`);
+  if (!initRes.ok) {
+    const t = await initRes.text();
+    throw new Error(`Gemini init falhou (${initRes.status}): ${t.slice(0, 300)}`);
+  }
+
+  const uploadUrl = initRes.headers.get("X-Goog-Upload-URL");
+  if (!uploadUrl) throw new Error("Gemini não retornou upload URL");
+
+  // Step 2: enviar bytes do arquivo
+  const uploadRes = await fetch(uploadUrl, {
+    method: "PUT",
+    headers: {
+      "Content-Length": buffer.byteLength.toString(),
+      "X-Goog-Upload-Command": "upload, finalize",
+      "X-Goog-Upload-Offset": "0",
+    },
+    body: buffer,
+  });
+
+  const text = await uploadRes.text();
+  if (!uploadRes.ok) throw new Error(`Gemini upload falhou (${uploadRes.status}): ${text.slice(0, 300)}`);
 
   const json = JSON.parse(text) as { file?: { uri?: string } };
   if (!json.file?.uri) throw new Error(`Gemini upload sem URI: ${text.slice(0, 300)}`);
