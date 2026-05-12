@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleAIFileManager } from "@google/generative-ai/server";
+import { writeFileSync, unlinkSync } from "fs";
+import { join } from "path";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -35,15 +38,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `Formato não suportado: ${mimeType}` }, { status: 400 });
   }
 
+  const ext = mimeType === "application/pdf" ? "pdf" : mimeType.split("/")[1] ?? "jpg";
+  const tmpPath = join("/tmp", `voucher-${Date.now()}.${ext}`);
+
   try {
     const buffer = Buffer.from(await file.arrayBuffer());
-    const base64 = buffer.toString("base64");
+    writeFileSync(tmpPath, buffer);
+
+    const fileManager = new GoogleAIFileManager(apiKey);
+    const upload = await fileManager.uploadFile(tmpPath, {
+      mimeType,
+      displayName: "voucher",
+    });
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const result = await model.generateContent([
-      { inlineData: { data: base64, mimeType } },
+      { fileData: { mimeType, fileUri: upload.file.uri } },
       PROMPT,
     ]);
 
@@ -56,9 +68,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const extracted = JSON.parse(jsonMatch[0]) as Record<string, string>;
-    return NextResponse.json(extracted);
+    return NextResponse.json(JSON.parse(jsonMatch[0]) as Record<string, string>);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
+  } finally {
+    try { unlinkSync(tmpPath); } catch {}
   }
 }
