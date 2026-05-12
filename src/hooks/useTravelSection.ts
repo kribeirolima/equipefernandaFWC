@@ -119,5 +119,17 @@ export function useTravelSection(storageKey: string) {
     });
   }, [storageKey]);
 
-  return { blocks, add, remove, confirm, reopen };
+  const addConfirmed = useCallback((data: Record<string, string>) => {
+    setBlocks((prev) => {
+      const base = prev.length === 1 && !prev[0].confirmed && Object.keys(prev[0].data).length === 0
+        ? []
+        : prev;
+      const block: BlockItem = { id: Date.now() + Math.random(), confirmed: true, data };
+      const next = [...base, block];
+      persist(storageKey, next);
+      return next;
+    });
+  }, [storageKey]);
+
+  return { blocks, add, addConfirmed, remove, confirm, reopen };
 }
