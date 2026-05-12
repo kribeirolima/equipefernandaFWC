@@ -62,9 +62,12 @@ export function VoucherSection({ tipo, entry, onSave, onClear }: Props) {
     setError("");
     setLoading(true);
     try {
-      const form = new FormData();
-      form.append("file", file);
-      const res = await fetch("/api/extract-voucher", { method: "POST", body: form });
+      const arrayBuffer = await file.arrayBuffer();
+      const res = await fetch("/api/extract-voucher", {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: arrayBuffer,
+      });
       if (!res.ok) {
         let msg = `Erro ${res.status}`;
         try { const j = await res.json() as Record<string, string>; msg = j.error ?? msg; } catch {}

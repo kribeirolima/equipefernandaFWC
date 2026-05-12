@@ -23,26 +23,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "GEMINI_API_KEY não configurada" }, { status: 500 });
   }
 
-  let formData: FormData;
-  try {
-    formData = await request.formData();
-  } catch (e) {
-    return NextResponse.json({ error: `Falha ao ler form: ${e}` }, { status: 400 });
-  }
-
-  const file = formData.get("file") as File | null;
-  if (!file) return NextResponse.json({ error: "nenhum arquivo enviado" }, { status: 400 });
-
-  const mimeType = file.type || "application/octet-stream";
+  const mimeType = request.headers.get("content-type") ?? "";
   if (!mimeType.startsWith("image/") && mimeType !== "application/pdf") {
     return NextResponse.json({ error: `Formato não suportado: ${mimeType}` }, { status: 400 });
   }
 
-  const ext = mimeType === "application/pdf" ? "pdf" : mimeType.split("/")[1] ?? "jpg";
+  const ext = mimeType === "application/pdf" ? "pdf" : (mimeType.split("/")[1] ?? "jpg");
   const tmpPath = join("/tmp", `voucher-${Date.now()}.${ext}`);
 
   try {
-    const buffer = Buffer.from(await file.arrayBuffer());
+    const buffer = Buffer.from(await request.arrayBuffer());
     writeFileSync(tmpPath, buffer);
 
     const fileManager = new GoogleAIFileManager(apiKey);
