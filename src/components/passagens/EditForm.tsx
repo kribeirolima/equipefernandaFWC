@@ -3,31 +3,40 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 
 const FLIGHT_FIELDS = [
-  { type: "full" as const, key: "data",       label: "Data",                placeholder: "ex: 12 jun 2026"           },
-  { type: "pair" as const, keys: ["saida",      "chegada"],     labels: ["Horário saída",     "Horário chegada"],   placeholders: ["ex: 08h45",   "ex: 14h20"]    },
-  { type: "pair" as const, keys: ["aero_orig",  "cidade_orig"], labels: ["Aeroporto saída",   "Cidade saída"],      placeholders: ["ex: GRU",     "ex: São Paulo"] },
-  { type: "pair" as const, keys: ["aero_dest",  "cidade_dest"], labels: ["Aeroporto destino", "Cidade destino"],    placeholders: ["ex: JFK",     "ex: Nova York"] },
+  { type: "full" as const, key: "voo",     label: "Número do voo",    placeholder: "ex: AA 904"              },
+  { type: "full" as const, key: "data",    label: "Data",             placeholder: "ex: 01 jun 2026"         },
+  { type: "pair" as const, keys: ["saida",   "chegada"],  labels: ["Saída",    "Chegada"],  placeholders: ["ex: 22h10", "ex: 05h45"] },
+  { type: "full" as const, key: "orig",    label: "Origem",           placeholder: "ex: GIG — Rio de Janeiro" },
+  { type: "full" as const, key: "dest",    label: "Destino",          placeholder: "ex: MIA — Miami"          },
 ];
 
 const HOSP_FIELDS = [
-  { type: "full" as const, key: "local",   label: "Local / Endereço", placeholder: "ex: Hotel Renata — 194 Park Ave" },
-  { type: "pair" as const, keys: ["checkin",  "checkout"], labels: ["Check-in", "Check-out"], placeholders: ["ex: 12 jun", "ex: 18 jul"] },
-  { type: "full" as const, key: "cidade",  label: "Cidade / País",    placeholder: "ex: Nova York, EUA"              },
+  { type: "full" as const, key: "local",   label: "Hotel / Local",    placeholder: "ex: Suites Perisur"                     },
+  { type: "full" as const, key: "end",     label: "Endereço",         placeholder: "ex: Calle Alba No. 15, Mexico City"     },
+  { type: "pair" as const, keys: ["checkin", "checkout"], labels: ["Check-in", "Check-out"], placeholders: ["ex: 09 jun 2026", "ex: 11 jun 2026"] },
 ];
-
-const iCls = "w-full rounded-md border border-[#E5E7EB] bg-white px-2.5 py-1.5 text-[11px] text-gray-900 placeholder:text-[#D1D5DB] outline-none transition-colors focus:border-[#1A7A3C]";
-const lCls = "block text-[9px] uppercase tracking-widest text-[#9CA3AF] mb-1";
 
 interface Props {
   kind: "passagem" | "hospedagem";
   initialValues: Record<string, string>;
+  auto?: boolean;
   onSave: (values: Record<string, string>) => void;
 }
 
-export function EditForm({ kind, initialValues, onSave }: Props) {
+export function EditForm({ kind, initialValues, auto, onSave }: Props) {
   const [values, setValues] = useState<Record<string, string>>(initialValues);
   const set = (key: string, val: string) => setValues((p) => ({ ...p, [key]: val }));
   const fields = kind === "passagem" ? FLIGHT_FIELDS : HOSP_FIELDS;
+
+  const iCls = auto
+    ? "w-full rounded-md px-2.5 py-1.5 text-[11px] text-gray-900 placeholder:text-[#D1D5DB] outline-none transition-colors focus:border-[#1A7A3C]"
+    : "w-full rounded-md px-2.5 py-1.5 text-[11px] text-gray-900 placeholder:text-[#D1D5DB] outline-none transition-colors focus:border-[#1A7A3C]";
+
+  const iStyle = auto
+    ? { background: "#F0FDF4", border: "0.5px solid #BBF7D0" }
+    : { background: "white", border: "1px solid #E5E7EB" };
+
+  const lCls = "block text-[9px] uppercase tracking-widest text-[#9CA3AF] mb-1";
 
   return (
     <div className="space-y-2 p-3">
@@ -36,7 +45,14 @@ export function EditForm({ kind, initialValues, onSave }: Props) {
           return (
             <div key={i}>
               <label className={lCls}>{row.label}</label>
-              <input type="text" value={values[row.key] ?? ""} onChange={(e) => set(row.key, e.target.value)} placeholder={row.placeholder} className={iCls} />
+              <input
+                type="text"
+                value={values[row.key] ?? ""}
+                onChange={(e) => set(row.key, e.target.value)}
+                placeholder={row.placeholder}
+                className={iCls}
+                style={iStyle}
+              />
             </div>
           );
         }
@@ -45,7 +61,14 @@ export function EditForm({ kind, initialValues, onSave }: Props) {
             {row.keys.map((k, ki) => (
               <div key={k}>
                 <label className={lCls}>{row.labels[ki]}</label>
-                <input type="text" value={values[k] ?? ""} onChange={(e) => set(k, e.target.value)} placeholder={row.placeholders[ki]} className={iCls} />
+                <input
+                  type="text"
+                  value={values[k] ?? ""}
+                  onChange={(e) => set(k, e.target.value)}
+                  placeholder={row.placeholders[ki]}
+                  className={iCls}
+                  style={iStyle}
+                />
               </div>
             ))}
           </div>

@@ -1,5 +1,5 @@
 "use client";
-import { VoucherCard } from "@/components/passagens/VoucherCard";
+import { TravelCard } from "@/components/passagens/TravelCard";
 
 const GROUPS = [
   { id: "fg",  name: "Fernanda",                  avatar: "FG",  avatarBg: "rgba(139,92,246,0.1)", avatarColor: "#7C3AED" },
@@ -13,13 +13,13 @@ export default function PassagensPage() {
       <div>
         <h1 className="text-[18px] font-medium text-gray-900">Passagens e Hospedagens</h1>
         <p className="text-[13px] text-gray-400 mt-0.5">
-          Envie o PDF do voucher · as informações aparecem automaticamente
+          Suba o PDF do voucher · blocos preenchidos automaticamente · edite se necessário
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-start">
         {GROUPS.map((g) => (
-          <VoucherCard key={g.id} group={g} />
+          <TravelCard key={g.id} group={g} />
         ))}
       </div>
     </div>

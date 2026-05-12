@@ -19,27 +19,23 @@ export function TravelBlock({ kind, block, index, canRemove, onConfirm, onReopen
 
   return (
     <div className="rounded-[7px] overflow-hidden" style={{ border: "0.5px solid #E5E7EB" }}>
-      {/* Block header */}
       <div
         className="flex items-center justify-between px-3 py-1.5"
         style={{ background: "#F9FAFB", borderBottom: "0.5px solid #E5E7EB" }}
       >
         <span style={{ fontSize: "9px", color: "#9CA3AF" }}>{label}</span>
         {canRemove && !block.confirmed && (
-          <button
-            onClick={() => onRemove(block.id)}
-            className="text-[#D1D5DB] hover:text-[#EF4444] transition-colors"
-          >
+          <button onClick={() => onRemove(block.id)} className="text-[#D1D5DB] hover:text-[#EF4444] transition-colors">
             <X className="h-3 w-3" />
           </button>
         )}
       </div>
 
-      {/* Body */}
       {block.confirmed ? (
         <SummaryCard
           kind={kind}
           data={block.data}
+          auto={block.auto}
           canRemove={canRemove}
           onEdit={() => onReopen(block.id)}
           onRemove={() => onRemove(block.id)}
@@ -49,6 +45,7 @@ export function TravelBlock({ kind, block, index, canRemove, onConfirm, onReopen
           <EditForm
             kind={kind}
             initialValues={block.data}
+            auto={block.auto}
             onSave={(vals) => onConfirm(block.id, vals)}
           />
         </div>
