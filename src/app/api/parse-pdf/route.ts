@@ -51,43 +51,34 @@ Cada objeto deve ter exatamente estes campos:
 Retorne APENAS o array JSON, sem texto, sem markdown, sem explicações.`,
   };
 
-  const result = await model.generateContent([
-    {
-      inlineData: {
-        mimeType: "application/pdf",
-        data: base64,
-      },
-    },
-    { text: prompts[type] },
-  ]);
-
   let text: string;
   try {
+    const result = await model.generateContent([
+      { inlineData: { mimeType: "application/pdf", data: base64 } },
+      { text: prompts[type] },
+    ]);
     text = result.response.text();
   } catch (e) {
-    console.error("[parse-pdf] response.text() threw:", e);
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("[parse-pdf] Gemini error:", msg);
     return Response.json(
-      { ok: false, error: "Não foi possível extrair os dados deste PDF." },
+      { ok: false, error: `Erro ao processar o PDF: ${msg}` },
       { status: 422 }
     );
   }
 
   console.log("[parse-pdf] raw text:", text.slice(0, 500));
 
-  // Remove markdown fences if present, then find the JSON array
   const stripped = text.replace(/```(?:json)?/g, "").trim();
   const match = stripped.match(/\[[\s\S]*\]/);
   const clean = match ? match[0] : stripped;
 
-  console.log("[parse-pdf] clean:", clean.slice(0, 300));
-
   try {
     const parsed = JSON.parse(clean);
     const blocks = Array.isArray(parsed) ? parsed : Object.values(parsed)[0];
-    console.log("[parse-pdf] blocks count:", Array.isArray(blocks) ? blocks.length : "not array");
     return Response.json({ ok: true, blocks });
   } catch (e) {
-    console.error("[parse-pdf] JSON.parse failed:", e, "| clean was:", clean.slice(0, 200));
+    console.error("[parse-pdf] JSON.parse failed. clean was:", clean.slice(0, 300));
     return Response.json(
       { ok: false, error: "Não foi possível extrair os dados deste PDF." },
       { status: 422 }
