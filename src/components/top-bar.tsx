@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PlaneTakeoff, MapPin, Camera, Calendar, Plane, Menu, Radio } from "lucide-react";
+import { getEquipe } from "@/lib/equipes";
 
 const NAV = [
   { href: "/", label: "Deslocamentos", Icon: PlaneTakeoff },
@@ -20,6 +21,8 @@ export function TopBar({
   onToggleSidebar: () => void;
 }) {
   const pathname = usePathname();
+  const equipeMatch = pathname.match(/^\/equipes\/([^/]+)/);
+  const currentEquipe = equipeMatch ? getEquipe(equipeMatch[1]) : null;
   const [clock, setClock] = useState("");
 
   useEffect(() => {
@@ -54,8 +57,12 @@ export function TopBar({
         </button>
         <div className="flex items-center gap-1.5">
           <Radio className="h-4 w-4 text-[#1A7A3C]" />
-          <span className="text-[14px] font-medium text-gray-900">Equipe Brasil</span>
-          <span className="text-[13px] font-normal text-gray-400">· Fernanda Gentil</span>
+          <span className="text-[14px] font-medium text-gray-900">
+            {currentEquipe ? currentEquipe.name : "Equipe Brasil"}
+          </span>
+          <span className="text-[13px] font-normal text-gray-400">
+            · {currentEquipe ? (currentEquipe.subtitle ?? "Copa 2026") : "Fernanda Gentil"}
+          </span>
         </div>
       </div>
 
