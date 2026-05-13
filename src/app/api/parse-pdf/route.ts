@@ -64,23 +64,30 @@ Retorne APENAS o array JSON, sem texto, sem markdown, sem explicações.`,
   let text: string;
   try {
     text = result.response.text();
-  } catch {
+  } catch (e) {
+    console.error("[parse-pdf] response.text() threw:", e);
     return Response.json(
       { ok: false, error: "Não foi possível extrair os dados deste PDF." },
       { status: 422 }
     );
   }
 
+  console.log("[parse-pdf] raw text:", text.slice(0, 500));
+
   // Remove markdown fences if present, then find the JSON array
   const stripped = text.replace(/```(?:json)?/g, "").trim();
   const match = stripped.match(/\[[\s\S]*\]/);
   const clean = match ? match[0] : stripped;
 
+  console.log("[parse-pdf] clean:", clean.slice(0, 300));
+
   try {
     const parsed = JSON.parse(clean);
     const blocks = Array.isArray(parsed) ? parsed : Object.values(parsed)[0];
+    console.log("[parse-pdf] blocks count:", Array.isArray(blocks) ? blocks.length : "not array");
     return Response.json({ ok: true, blocks });
-  } catch {
+  } catch (e) {
+    console.error("[parse-pdf] JSON.parse failed:", e, "| clean was:", clean.slice(0, 200));
     return Response.json(
       { ok: false, error: "Não foi possível extrair os dados deste PDF." },
       { status: 422 }
