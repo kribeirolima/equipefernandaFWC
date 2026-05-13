@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(req: Request) {
   const form = await req.formData();
@@ -8,7 +8,8 @@ export async function POST(req: Request) {
   const bytes = await file.arrayBuffer();
   const base64 = Buffer.from(bytes).toString("base64");
 
-  const client = new Anthropic();
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
   const prompts: Record<string, string> = {
     pass: `
@@ -47,27 +48,17 @@ Cada objeto deve ter exatamente estes campos:
 Retorne APENAS o array JSON, sem texto, sem markdown, sem explicações.`,
   };
 
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 1000,
-    messages: [
-      {
-        role: "user",
-        content: [
-          {
-            type: "document",
-            source: { type: "base64", media_type: "application/pdf", data: base64 },
-          },
-          { type: "text", text: prompts[type] },
-        ],
+  const result = await model.generateContent([
+    {
+      inlineData: {
+        mimeType: "application/pdf",
+        data: base64,
       },
-    ],
-  });
+    },
+    { text: prompts[type] },
+  ]);
 
-  const text = response.content
-    .filter((b) => b.type === "text")
-    .map((b) => (b as { type: "text"; text: string }).text)
-    .join("");
+  const text = result.response.text();
   const clean = text.replace(/```json|```/g, "").trim();
 
   try {
