@@ -25,7 +25,7 @@ export function UploadButton({ label, type, onSuccess, onError }: Props) {
       form.set("type", type);
 
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15_000);
+      const timeout = setTimeout(() => controller.abort(), 60_000);
 
       let res: Response;
       try {
@@ -39,18 +39,34 @@ export function UploadButton({ label, type, onSuccess, onError }: Props) {
         if (err instanceof Error && err.name === "AbortError") {
           onError("Tempo esgotado. Tente novamente.");
         } else {
-          onError("Não consegui ler os dados deste PDF. Tente novamente ou adicione manualmente.");
+          onError("Erro de conexão. Verifique sua internet e tente novamente.");
         }
         return;
       }
       clearTimeout(timeout);
 
-      const json = await res.json();
+      let json: { ok: boolean; blocks?: unknown[]; error?: string };
+      try {
+        json = await res.json();
+      } catch {
+        onError("Resposta inválida do servidor. Tente novamente.");
+        return;
+      }
+
       if (!res.ok || !json.ok) {
         onError(json.error ?? "Não consegui ler os dados deste PDF. Tente novamente ou adicione manualmente.");
         return;
       }
-      onSuccess(json.blocks);
+
+      const blocks = json.blocks ?? [];
+      if (!Array.isArray(blocks) || blocks.length === 0) {
+        onError("Nenhum dado encontrado no PDF. Verifique o documento e tente novamente.");
+        return;
+      }
+
+      onSuccess(blocks);
+    } catch (err: unknown) {
+      onError(`Erro inesperado: ${err instanceof Error ? err.message : "tente novamente."}`);
     } finally {
       setLoading(false);
       if (inputRef.current) inputRef.current.value = "";
