@@ -17,9 +17,9 @@ export const EQUIPES: Equipe[] = [
     hospKey: "pv3_fg_hosp",
   },
   {
-    slug: "bruna-alemanha",
-    name: "Equipe Bruna",
-    subtitle: "Alemanha",
+    slug: "alemanha-bruna",
+    name: "Equipe Alemanha",
+    subtitle: "Bruna Dealtry",
     passKey: "eq_ba_pass",
     hospKey: "eq_ba_hosp",
   },
