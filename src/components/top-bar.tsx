@@ -2,13 +2,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { PlaneTakeoff, MapPin, Camera, Calendar, Menu, Radio } from "lucide-react";
+import { PlaneTakeoff, MapPin, Camera, Calendar, Plane, Menu, Radio } from "lucide-react";
 
 const NAV = [
   { href: "/", label: "Deslocamentos", Icon: PlaneTakeoff },
   { href: "/proximidades", label: "Locais próximos", Icon: MapPin },
   { href: "/locacoes", label: "Locações", Icon: Camera },
   { href: "/ordem-dia", label: "Ordem do Dia", Icon: Calendar },
+  { href: "/passagens", label: "Passagens", Icon: Plane },
 ];
 
 export function TopBar({
