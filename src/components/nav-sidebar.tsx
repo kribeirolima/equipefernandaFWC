@@ -1,14 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PlaneTakeoff, MapPin, Camera, Calendar, Plane } from "lucide-react";
+import { PlaneTakeoff, MapPin, Camera, Calendar } from "lucide-react";
 
 const NAV = [
   { href: "/", label: "Deslocamentos", description: "NYC / NJ", Icon: PlaneTakeoff },
   { href: "/proximidades", label: "Locais próximos", description: "CDMX · NJ · Miami", Icon: MapPin },
   { href: "/locacoes", label: "Locações", description: "Ao vivo", Icon: Camera },
   { href: "/ordem-dia", label: "Ordem do Dia", description: "CazéTV · Copa 2026", Icon: Calendar },
-  { href: "/passagens", label: "Passagens e hospedagens", description: "Voos · Hotéis", Icon: Plane },
 ];
 
 export function NavSidebar({ open }: { open: boolean }) {
