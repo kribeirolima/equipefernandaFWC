@@ -92,6 +92,13 @@ export const EQUIPES: Equipe[] = [
     passKey: "eq_ibc_pass",
     hospKey: "eq_ibc_hosp",
   },
+  {
+    slug: "brasil-defante",
+    name: "Equipe Brasil",
+    subtitle: "Defante",
+    passKey: "eq_df_pass",
+    hospKey: "eq_df_hosp",
+  },
 ];
 
 export function getEquipe(slug: string): Equipe | undefined {
