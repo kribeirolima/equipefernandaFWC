@@ -1,18 +1,10 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export async function POST(req: Request) {
   const form = await req.formData();
   const file = form.get("file") as File;
   const type = form.get("type") as string;
 
   const bytes = await file.arrayBuffer();
-  const base64 = Buffer.from(bytes).toString("base64");
-
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
-    generationConfig: { responseMimeType: "application/json" },
-  });
+  const base64 = Buffer.from(new Uint8Array(bytes)).toString("base64");
 
   const prompts: Record<string, string> = {
     pass: `
@@ -53,14 +45,36 @@ Retorne APENAS o array JSON, sem texto, sem markdown, sem explicações.`,
 
   let text: string;
   try {
-    const result = await model.generateContent([
-      { inlineData: { mimeType: "application/pdf", data: base64 } },
-      { text: prompts[type] },
-    ]);
-    text = result.response.text();
+    const apiKey = process.env.GEMINI_API_KEY!;
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { inline_data: { mime_type: "application/pdf", data: base64 } },
+                { text: prompts[type] },
+              ],
+            },
+          ],
+          generationConfig: { response_mime_type: "application/json" },
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Gemini ${res.status}: ${errText.slice(0, 300)}`);
+    }
+
+    const json = await res.json();
+    text = json.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    console.error("[parse-pdf] Gemini error:", msg);
+    console.error("[parse-pdf] error:", msg);
     return Response.json(
       { ok: false, error: `Erro ao processar o PDF: ${msg}` },
       { status: 422 }
