@@ -9,7 +9,10 @@ export async function POST(req: Request) {
   const base64 = Buffer.from(bytes).toString("base64");
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash",
+    generationConfig: { responseMimeType: "application/json" },
+  });
 
   const prompts: Record<string, string> = {
     pass: `
@@ -58,11 +61,24 @@ Retorne APENAS o array JSON, sem texto, sem markdown, sem explicações.`,
     { text: prompts[type] },
   ]);
 
-  const text = result.response.text();
-  const clean = text.replace(/```json|```/g, "").trim();
+  let text: string;
+  try {
+    text = result.response.text();
+  } catch {
+    return Response.json(
+      { ok: false, error: "Não foi possível extrair os dados deste PDF." },
+      { status: 422 }
+    );
+  }
+
+  // Remove markdown fences if present, then find the JSON array
+  const stripped = text.replace(/```(?:json)?/g, "").trim();
+  const match = stripped.match(/\[[\s\S]*\]/);
+  const clean = match ? match[0] : stripped;
 
   try {
-    const blocks = JSON.parse(clean);
+    const parsed = JSON.parse(clean);
+    const blocks = Array.isArray(parsed) ? parsed : Object.values(parsed)[0];
     return Response.json({ ok: true, blocks });
   } catch {
     return Response.json(
