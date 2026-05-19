@@ -4,6 +4,7 @@ import { SectionPlaceholder } from "@/components/equipes/SectionPlaceholder";
 import { ProximidadesAlemanha } from "@/components/equipes/alemanha/ProximidadesAlemanha";
 import { ProximidadesFranca } from "@/components/equipes/franca/ProximidadesFranca";
 import { ProximidadesEspanha } from "@/components/equipes/espanha/ProximidadesEspanha";
+import { ProximidadesUruguai } from "@/components/equipes/uruguai/ProximidadesUruguai";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -28,6 +29,10 @@ export default async function EquipeProximidadesPage({
 
   if (slug === "espanha-fala-porco") {
     return <ProximidadesEspanha />;
+  }
+
+  if (slug === "uruguai-day") {
+    return <ProximidadesUruguai />;
   }
 
   return (
