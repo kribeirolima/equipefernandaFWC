@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getEquipe, getEquipeSlugs } from "@/lib/equipes";
 import { SectionPlaceholder } from "@/components/equipes/SectionPlaceholder";
+import { OrdemDiaAlemanha } from "@/components/equipes/alemanha/OrdemDiaAlemanha";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -14,6 +15,11 @@ export default async function EquipeOrdemDiaPage({
   const { slug } = await params;
   const equipe = getEquipe(slug);
   if (!equipe) notFound();
+
+  if (slug === "alemanha-bruna") {
+    return <OrdemDiaAlemanha />;
+  }
+
   return (
     <div className="p-5 max-w-3xl">
       <div className="mb-6">
