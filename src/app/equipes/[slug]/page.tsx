@@ -4,6 +4,7 @@ import { SectionPlaceholder } from "@/components/equipes/SectionPlaceholder";
 import { DeslocamentosAlemanha } from "@/components/equipes/alemanha/DeslocamentosAlemanha";
 import { DeslocamentosFranca } from "@/components/equipes/franca/DeslocamentosFranca";
 import { DeslocamentosEspanha } from "@/components/equipes/espanha/DeslocamentosEspanha";
+import { DeslocamentosUruguai } from "@/components/equipes/uruguai/DeslocamentosUruguai";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -28,6 +29,10 @@ export default async function EquipeDeslocamentosPage({
 
   if (slug === "espanha-fala-porco") {
     return <DeslocamentosEspanha />;
+  }
+
+  if (slug === "uruguai-day") {
+    return <DeslocamentosUruguai />;
   }
 
   return (
