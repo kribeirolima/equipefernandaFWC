@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getEquipe, getEquipeSlugs } from "@/lib/equipes";
 import { SectionPlaceholder } from "@/components/equipes/SectionPlaceholder";
 import { ProximidadesAlemanha } from "@/components/equipes/alemanha/ProximidadesAlemanha";
+import { ProximidadesFranca } from "@/components/equipes/franca/ProximidadesFranca";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -18,6 +19,10 @@ export default async function EquipeProximidadesPage({
 
   if (slug === "alemanha-bruna") {
     return <ProximidadesAlemanha />;
+  }
+
+  if (slug === "franca-isa") {
+    return <ProximidadesFranca />;
   }
 
   return (
