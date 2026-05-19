@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getEquipe, getEquipeSlugs } from "@/lib/equipes";
 import { SectionPlaceholder } from "@/components/equipes/SectionPlaceholder";
 import { LocacoesAlemanha } from "@/components/equipes/alemanha/LocacoesAlemanha";
+import { LocacoesFranca } from "@/components/equipes/franca/LocacoesFranca";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -18,6 +19,10 @@ export default async function EquipeLocacoesPage({
 
   if (slug === "alemanha-bruna") {
     return <LocacoesAlemanha />;
+  }
+
+  if (slug === "franca-isa") {
+    return <LocacoesFranca />;
   }
 
   return (
