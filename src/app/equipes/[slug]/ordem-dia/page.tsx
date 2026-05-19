@@ -1,11 +1,25 @@
 import { notFound } from "next/navigation";
 import { getEquipe, getEquipeSlugs } from "@/lib/equipes";
 import { SectionPlaceholder } from "@/components/equipes/SectionPlaceholder";
-import { OrdemDiaAlemanha } from "@/components/equipes/alemanha/OrdemDiaAlemanha";
+import { OrdemDiaEquipe } from "@/components/equipes/OrdemDiaEquipe";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
 }
+
+const ORDEM_DIA_CONFIG: Record<string, { storagePrefix: string; printName: string }> = {
+  "alemanha-bruna":     { storagePrefix: "ale", printName: "EQUIPE ALEMANHA · BRUNA DEALTRY" },
+  "franca-isa":         { storagePrefix: "fra", printName: "EQUIPE FRANÇA · ISA PAGLIARI" },
+  "espanha-fala-porco": { storagePrefix: "esp", printName: "EQUIPE ESPANHA · FALA PORCO" },
+  "uruguai-day":        { storagePrefix: "ury", printName: "EQUIPE URUGUAI · DAY NATALE" },
+  "brasil-belt-chico":  { storagePrefix: "bc",  printName: "EQUIPE BRASIL · BELT E CHICO" },
+  "brasil-klayn-leo":   { storagePrefix: "kl",  printName: "EQUIPE BRASIL · KLAYN E LEO" },
+  "host-barbara":       { storagePrefix: "hb",  printName: "EQUIPE HOST · BÁRBARA COELHO" },
+  "argentina-rafa":     { storagePrefix: "arg", printName: "EQUIPE ARGENTINA · RAFA E DJALMINHA" },
+  "inglaterra-vic":     { storagePrefix: "ing", printName: "EQUIPE INGLATERRA · VIC LEITE" },
+  "portugal-joao":      { storagePrefix: "pt",  printName: "EQUIPE PORTUGAL · JOÃO BARRETTO" },
+  "brasil-defante":     { storagePrefix: "df",  printName: "EQUIPE BRASIL · DEFANTE" },
+};
 
 export default async function EquipeOrdemDiaPage({
   params,
@@ -16,8 +30,9 @@ export default async function EquipeOrdemDiaPage({
   const equipe = getEquipe(slug);
   if (!equipe) notFound();
 
-  if (slug === "alemanha-bruna") {
-    return <OrdemDiaAlemanha />;
+  const config = ORDEM_DIA_CONFIG[slug];
+  if (config) {
+    return <OrdemDiaEquipe storagePrefix={config.storagePrefix} printName={config.printName} />;
   }
 
   return (
