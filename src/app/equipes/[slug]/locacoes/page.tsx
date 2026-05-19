@@ -3,6 +3,7 @@ import { getEquipe, getEquipeSlugs } from "@/lib/equipes";
 import { SectionPlaceholder } from "@/components/equipes/SectionPlaceholder";
 import { LocacoesAlemanha } from "@/components/equipes/alemanha/LocacoesAlemanha";
 import { LocacoesFranca } from "@/components/equipes/franca/LocacoesFranca";
+import { LocacoesEspanha } from "@/components/equipes/espanha/LocacoesEspanha";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -23,6 +24,10 @@ export default async function EquipeLocacoesPage({
 
   if (slug === "franca-isa") {
     return <LocacoesFranca />;
+  }
+
+  if (slug === "espanha-fala-porco") {
+    return <LocacoesEspanha />;
   }
 
   return (
