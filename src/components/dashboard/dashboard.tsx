@@ -10,6 +10,9 @@ import {
   parseTimeMid,
   formatMinutes,
 } from "@/lib/data";
+import { MIAMI_BASE } from "@/lib/data-miami";
+import { CDMX_BASE } from "@/lib/data-cdmx";
+import { CidadePanel } from "./cidade-panel";
 import type { TeamKey } from "./team-filter";
 import { OriginSelector } from "./origin-selector";
 import { RouteCard } from "./route-card";
@@ -97,7 +100,38 @@ function KpiCard({
   );
 }
 
+type CityKey = "nyc-nj" | "miami" | "cdmx";
+
+const CITY_OPTIONS: { value: CityKey; label: string; emoji: string }[] = [
+  { value: "nyc-nj", label: "NYC / NJ", emoji: "🗽" },
+  { value: "miami", label: "Miami", emoji: "🌴" },
+  { value: "cdmx", label: "CDMX", emoji: "🌮" },
+];
+
+function CityTabs({ value, onChange }: { value: CityKey; onChange: (v: CityKey) => void }) {
+  return (
+    <div className="inline-flex rounded-lg bg-gray-100 border border-gray-200 p-0.5 text-[13px]">
+      {CITY_OPTIONS.map((opt) => (
+        <button
+          key={opt.value}
+          onClick={() => onChange(opt.value)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium transition-all"
+          style={
+            value === opt.value
+              ? { background: "#1A7A3C", color: "#FFFFFF" }
+              : { color: "#6B7280" }
+          }
+        >
+          <span>{opt.emoji}</span>
+          <span>{opt.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export function Dashboard() {
+  const [city, setCity] = useState<CityKey>("nyc-nj");
   const [team, setTeam] = useState<TeamKey>("ALL");
   const [originId, setOriginId] = useState<string>("renata");
 
@@ -151,18 +185,42 @@ export function Dashboard() {
     };
   }, [team]);
 
+  const cityBase = city === "miami" ? MIAMI_BASE : CDMX_BASE;
+
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 space-y-5">
+      {/* Seletor de cidade */}
+      <div className="flex items-center gap-3">
+        <CityTabs value={city} onChange={setCity} />
+      </div>
+
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-[18px] font-medium text-gray-900">Deslocamentos NYC / NJ</h1>
-          <p className="text-[13px] text-gray-400 mt-0.5">
-            Filtre por equipe · selecione a origem · explore tempos e rotas
-          </p>
+          {city === "nyc-nj" ? (
+            <>
+              <h1 className="text-[18px] font-medium text-gray-900">Deslocamentos NYC / NJ</h1>
+              <p className="text-[13px] text-gray-400 mt-0.5">
+                Filtre por equipe · selecione a origem · explore tempos e rotas
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-[18px] font-medium text-gray-900">
+                Deslocamentos · {cityBase.emoji} {cityBase.cidade}
+              </h1>
+              <p className="text-[13px] text-gray-400 mt-0.5">
+                Fernanda Gentil · Copa 2026
+              </p>
+            </>
+          )}
         </div>
-        <TeamFilter value={team} onChange={setTeam} />
+        {city === "nyc-nj" && <TeamFilter value={team} onChange={setTeam} />}
       </div>
+
+      {/* Conteúdo por cidade */}
+      {city !== "nyc-nj" && <CidadePanel base={cityBase} />}
+      {city === "nyc-nj" && (<>
 
       {/* KPI row */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -265,6 +323,7 @@ export function Dashboard() {
           </div>
         </div>
       </div>
+      </>)}
     </div>
   );
 }
