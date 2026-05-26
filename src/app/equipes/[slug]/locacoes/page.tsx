@@ -9,7 +9,7 @@ import { LocacoesBeltChico } from "@/components/equipes/brasil-belt-chico/Locaco
 import { LocacoesKlaynLeo } from "@/components/equipes/brasil-klayn-leo/LocacoesKlaynLeo";
 import { LocacoesDefante } from "@/components/equipes/brasil-defante/LocacoesDefante";
 import { LocacoesBarbara } from "@/components/equipes/host-barbara/LocacoesBarbara";
-// argentina-rafa: locações ainda não implementadas
+import { LocacoesArgentina } from "@/components/equipes/argentina-rafa/LocacoesArgentina";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -54,6 +54,10 @@ export default async function EquipeLocacoesPage({
 
   if (slug === "host-barbara") {
     return <LocacoesBarbara />;
+  }
+
+  if (slug === "argentina-rafa") {
+    return <LocacoesArgentina />;
   }
 
   return (

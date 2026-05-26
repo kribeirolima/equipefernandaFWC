@@ -9,7 +9,7 @@ import { ProximidadesBeltChico } from "@/components/equipes/brasil-belt-chico/Pr
 import { ProximidadesKlaynLeo } from "@/components/equipes/brasil-klayn-leo/ProximidadesKlaynLeo";
 import { ProximidadesDefante } from "@/components/equipes/brasil-defante/ProximidadesDefante";
 import { ProximidadesBarbara } from "@/components/equipes/host-barbara/ProximidadesBarbara";
-// argentina-rafa: proximidades ainda não implementadas
+import { ProximidadesArgentina } from "@/components/equipes/argentina-rafa/ProximidadesArgentina";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -54,6 +54,10 @@ export default async function EquipeProximidadesPage({
 
   if (slug === "host-barbara") {
     return <ProximidadesBarbara />;
+  }
+
+  if (slug === "argentina-rafa") {
+    return <ProximidadesArgentina />;
   }
 
   return (
