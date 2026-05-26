@@ -5,6 +5,7 @@ import { ProximidadesAlemanha } from "@/components/equipes/alemanha/Proximidades
 import { ProximidadesFranca } from "@/components/equipes/franca/ProximidadesFranca";
 import { ProximidadesEspanha } from "@/components/equipes/espanha/ProximidadesEspanha";
 import { ProximidadesUruguai } from "@/components/equipes/uruguai/ProximidadesUruguai";
+import { ProximidadesBeltChico } from "@/components/equipes/brasil-belt-chico/ProximidadesBeltChico";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -33,6 +34,10 @@ export default async function EquipeProximidadesPage({
 
   if (slug === "uruguai-day") {
     return <ProximidadesUruguai />;
+  }
+
+  if (slug === "brasil-belt-chico") {
+    return <ProximidadesBeltChico />;
   }
 
   return (
