@@ -5,6 +5,7 @@ import { DeslocamentosAlemanha } from "@/components/equipes/alemanha/Deslocament
 import { DeslocamentosFranca } from "@/components/equipes/franca/DeslocamentosFranca";
 import { DeslocamentosEspanha } from "@/components/equipes/espanha/DeslocamentosEspanha";
 import { DeslocamentosUruguai } from "@/components/equipes/uruguai/DeslocamentosUruguai";
+import { DeslocamentosBeltChico } from "@/components/equipes/brasil-belt-chico/DeslocamentosBeltChico";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -33,6 +34,10 @@ export default async function EquipeDeslocamentosPage({
 
   if (slug === "uruguai-day") {
     return <DeslocamentosUruguai />;
+  }
+
+  if (slug === "brasil-belt-chico") {
+    return <DeslocamentosBeltChico />;
   }
 
   return (
