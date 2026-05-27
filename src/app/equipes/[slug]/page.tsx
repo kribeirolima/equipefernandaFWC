@@ -10,6 +10,7 @@ import { DeslocamentosKlaynLeo } from "@/components/equipes/brasil-klayn-leo/Des
 import { DeslocamentosDefante } from "@/components/equipes/brasil-defante/DeslocamentosDefante";
 import { DeslocamentosBarbara } from "@/components/equipes/host-barbara/DeslocamentosBarbara";
 import { DeslocamentosArgentina } from "@/components/equipes/argentina-rafa/DeslocamentosArgentina";
+import { DeslocamentosInglaterra } from "@/components/equipes/inglaterra-vic/DeslocamentosInglaterra";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -58,6 +59,10 @@ export default async function EquipeDeslocamentosPage({
 
   if (slug === "argentina-rafa") {
     return <DeslocamentosArgentina />;
+  }
+
+  if (slug === "inglaterra-vic") {
+    return <DeslocamentosInglaterra />;
   }
 
   return (

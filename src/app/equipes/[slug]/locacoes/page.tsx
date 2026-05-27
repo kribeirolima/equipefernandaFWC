@@ -10,6 +10,7 @@ import { LocacoesKlaynLeo } from "@/components/equipes/brasil-klayn-leo/Locacoes
 import { LocacoesDefante } from "@/components/equipes/brasil-defante/LocacoesDefante";
 import { LocacoesBarbara } from "@/components/equipes/host-barbara/LocacoesBarbara";
 import { LocacoesArgentina } from "@/components/equipes/argentina-rafa/LocacoesArgentina";
+import { LocacoesInglaterra } from "@/components/equipes/inglaterra-vic/LocacoesInglaterra";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -58,6 +59,10 @@ export default async function EquipeLocacoesPage({
 
   if (slug === "argentina-rafa") {
     return <LocacoesArgentina />;
+  }
+
+  if (slug === "inglaterra-vic") {
+    return <LocacoesInglaterra />;
   }
 
   return (
