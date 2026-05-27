@@ -11,6 +11,7 @@ import { ProximidadesDefante } from "@/components/equipes/brasil-defante/Proximi
 import { ProximidadesBarbara } from "@/components/equipes/host-barbara/ProximidadesBarbara";
 import { ProximidadesArgentina } from "@/components/equipes/argentina-rafa/ProximidadesArgentina";
 import { ProximidadesInglaterra } from "@/components/equipes/inglaterra-vic/ProximidadesInglaterra";
+import { ProximidadesPortugal } from "@/components/equipes/portugal-joao/ProximidadesPortugal";
 
 export function generateStaticParams() {
   return getEquipeSlugs().map((slug) => ({ slug }));
@@ -63,6 +64,10 @@ export default async function EquipeProximidadesPage({
 
   if (slug === "inglaterra-vic") {
     return <ProximidadesInglaterra />;
+  }
+
+  if (slug === "portugal-joao") {
+    return <ProximidadesPortugal />;
   }
 
   return (
