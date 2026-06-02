@@ -94,6 +94,14 @@ export function OrdemDiaEquipe({ storagePrefix, printName }: Props) {
         <div style={{ borderTop: "0.5pt solid #ccc", marginTop: "8pt" }} />
       </div>
 
+      {/* ── Aviso */}
+      <p
+        className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800"
+        style={{ lineHeight: "1.4" }}
+      >
+        ⚠️ Sujeito a alteração de acordo com o planejamento do dia.
+      </p>
+
       {/* ── Section */}
       <OdSection
         config={sec}

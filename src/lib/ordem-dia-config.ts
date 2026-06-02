@@ -45,6 +45,7 @@ export const SECTIONS_PROGRAMA: SectionConfig[] = [
           },
           { type: "full",  key: "deslocamento",   label: "Forma de deslocamento",        placeholder: "ex: Van · 25 min" },
           { type: "full",  key: "apresentador",   label: "Nome do apresentador",         placeholder: "ex: Fernanda Gentil" },
+          { type: "full",  key: "reporters",       label: "Nome dos repórteres",          placeholder: "ex: João Silva, Maria Costa" },
           { type: "pair",
             left:  { key: "cinegrafista", label: "Nome do cinegrafista",         placeholder: "ex: João Silva" },
             right: { key: "produtor",     label: "Nome do produtor",             placeholder: "ex: Maria Costa" },
