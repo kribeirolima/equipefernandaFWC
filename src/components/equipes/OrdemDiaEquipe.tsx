@@ -94,13 +94,29 @@ export function OrdemDiaEquipe({ storagePrefix, printName }: Props) {
         <div style={{ borderTop: "0.5pt solid #ccc", marginTop: "8pt" }} />
       </div>
 
-      {/* ── Aviso */}
-      <p
-        className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800"
-        style={{ lineHeight: "1.4" }}
-      >
-        ⚠️ Sujeito a alteração de acordo com o planejamento do dia.
-      </p>
+      {/* ── Avisos */}
+      <div className="space-y-2">
+        <p
+          className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800"
+          style={{ lineHeight: "1.4" }}
+        >
+          ⚠️ Sujeito a alteração de acordo com o planejamento do dia.
+        </p>
+        <p
+          className="rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-[11px] text-blue-800"
+          style={{ lineHeight: "1.4" }}
+        >
+          👕 Usar o uniforme fornecido específico de Copa. Levar capa de chuva.
+        </p>
+        {tipo === "jogo" && (
+          <p
+            className="rounded-md border border-orange-200 bg-orange-50 px-3 py-2 text-[11px] text-orange-800"
+            style={{ lineHeight: "1.4" }}
+          >
+            🦺 Os coletes são fixos e ficamos com eles até o final da competição. Lembrar de levar o colete em todo jogo.
+          </p>
+        )}
+      </div>
 
       {/* ── Section */}
       <OdSection
