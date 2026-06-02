@@ -121,7 +121,7 @@ export function OrdemDiaEquipe({ storagePrefix, printName, programaLabel = "Dia 
 
       {/* ── Section */}
       <OdSection
-        config={sec}
+        config={tipo === "programa" ? { ...sec, label: programaLabel } : sec}
         values={store[sec.id]?.values ?? {}}
         confirmed={store[sec.id]?.confirmed ?? false}
         onSave={(vals) => save(sec.id, vals)}
