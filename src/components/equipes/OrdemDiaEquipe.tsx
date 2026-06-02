@@ -11,9 +11,10 @@ type Tipo = "programa" | "jogo";
 interface Props {
   storagePrefix: string;
   printName: string;
+  programaLabel?: string;
 }
 
-export function OrdemDiaEquipe({ storagePrefix, printName }: Props) {
+export function OrdemDiaEquipe({ storagePrefix, printName, programaLabel = "Dia de Programa" }: Props) {
   const { store, save, reopen } = useOrdemDia(["programa", "jogo"], storagePrefix);
 
   const [tipo, setTipo] = useState<Tipo>("programa");
@@ -31,7 +32,7 @@ export function OrdemDiaEquipe({ storagePrefix, printName }: Props) {
   }
 
   const sec = (tipo === "programa" ? SECTIONS_PROGRAMA : SECTIONS_JOGO)[0];
-  const tipoLabel = tipo === "programa" ? "DIA DE PROGRAMA" : "DIA DE JOGO";
+  const tipoLabel = tipo === "programa" ? programaLabel.toUpperCase() : "DIA DE JOGO";
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 lg:px-8 space-y-4">
@@ -65,7 +66,7 @@ export function OrdemDiaEquipe({ storagePrefix, printName }: Props) {
           }
         >
           <Clapperboard className="h-3.5 w-3.5" />
-          Dia de Programa
+          {programaLabel}
         </button>
         <button
           onClick={() => changeTipo("jogo")}
