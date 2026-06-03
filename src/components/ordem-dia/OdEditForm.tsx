@@ -41,6 +41,35 @@ export function OdEditForm({ config, initialValues, onSave }: Props) {
                 </div>
               );
             }
+            if (row.type === "timepair") {
+              return (
+                <div key={ri}>
+                  <label className={labelCls}>{row.label}</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="relative">
+                      <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[13px]">🇺🇸</span>
+                      <input
+                        type="text"
+                        value={values[`${row.key}_edt`] ?? ""}
+                        onChange={(e) => set(`${row.key}_edt`, e.target.value)}
+                        placeholder="EDT ex: 11h00"
+                        className={`${inputCls} pl-8`}
+                      />
+                    </div>
+                    <div className="relative">
+                      <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[13px]">🇧🇷</span>
+                      <input
+                        type="text"
+                        value={values[`${row.key}_brt`] ?? ""}
+                        onChange={(e) => set(`${row.key}_brt`, e.target.value)}
+                        placeholder="BRT ex: 12h00"
+                        className={`${inputCls} pl-8`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            }
             return (
               <div key={ri} className="grid grid-cols-2 gap-2">
                 {[row.left, row.right].map((f) => (

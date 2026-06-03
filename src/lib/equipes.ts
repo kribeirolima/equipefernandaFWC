@@ -47,7 +47,7 @@ export const EQUIPES: Equipe[] = [
   {
     slug: "brasil-belt-chico",
     name: "Equipe Brasil",
-    subtitle: "Belt e Chico",
+    subtitle: "Belt Moedas",
     passKey: "eq_bc_pass",
     hospKey: "eq_bc_hosp",
   },

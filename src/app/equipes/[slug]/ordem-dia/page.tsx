@@ -12,7 +12,7 @@ const ORDEM_DIA_CONFIG: Record<string, { storagePrefix: string; printName: strin
   "franca-isa":         { storagePrefix: "fra", printName: "EQUIPE FRANÇA · ISA PAGLIARI" },
   "espanha-fala-porco": { storagePrefix: "esp", printName: "EQUIPE ESPANHA · FALA PORCO" },
   "uruguai-day":        { storagePrefix: "ury", printName: "EQUIPE URUGUAI · DAY NATALE" },
-  "brasil-belt-chico":  { storagePrefix: "bc",  printName: "EQUIPE BRASIL · BELT E CHICO" },
+  "brasil-belt-chico":  { storagePrefix: "bc",  printName: "EQUIPE BRASIL · BELT MOEDAS" },
   "brasil-klayn-leo":   { storagePrefix: "kl",  printName: "EQUIPE BRASIL · KLAYN E LEO" },
   "host-barbara":       { storagePrefix: "hb",  printName: "EQUIPE HOST · BÁRBARA COELHO" },
   "argentina-rafa":     { storagePrefix: "arg", printName: "EQUIPE ARGENTINA · RAFA E DJALMINHA" },

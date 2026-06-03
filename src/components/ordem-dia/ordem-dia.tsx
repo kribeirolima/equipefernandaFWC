@@ -1,6 +1,6 @@
 "use client";
-import { OrdemDiaEquipe } from "@/components/equipes/OrdemDiaEquipe";
+import { AgendaBrasil } from "@/components/ordem-dia/AgendaBrasil";
 
 export function OrdemDia() {
-  return <OrdemDiaEquipe storagePrefix="od" printName="EQUIPE BRASIL · FERNANDA GENTIL" programaLabel="Aqui é Brasil" />;
+  return <AgendaBrasil />;
 }
