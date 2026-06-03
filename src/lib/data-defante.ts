@@ -537,7 +537,7 @@ export const DEFANTE_BASES: DefanteBase[] = [
     periodo: "23–28 jun",
     hotel: "Hampton Inn & Suites Miami Wynwood Design District",
     hotelAddr: "3450 Biscayne Blvd, Miami, FL 33137",
-    nota: "Mesmo hotel da Equipe Brasil Belt Moedas. Deslocamentos completos disponíveis no portal daquela equipe.",
+    nota: "Mesmo hotel da Equipe Brasil Belt e Chico. Deslocamentos completos disponíveis no portal daquela equipe.",
     fuso: "EDT (UTC -4h) · BRT = EDT +1h",
     referenciaLabel: "Estádio Copa: Hard Rock Stadium",
     referenciaAddr: "347 Don Shula Dr, Miami Gardens, FL 33056",
