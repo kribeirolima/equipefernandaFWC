@@ -5,6 +5,7 @@ import { SECTIONS_PROGRAMA, SECTIONS_JOGO } from "@/lib/ordem-dia-config";
 import { useOrdemDia } from "@/hooks/useOrdemDia";
 import { OdSection } from "@/components/ordem-dia/OdSection";
 import { PdfExport } from "@/components/ordem-dia/PdfExport";
+import { AgendaBrasilNotes } from "@/components/ordem-dia/AgendaBrasilNotes";
 
 type Tipo = "programa" | "jogo";
 
@@ -127,6 +128,9 @@ export function OrdemDiaEquipe({ storagePrefix, printName, programaLabel = "Dia 
         onSave={(vals) => save(sec.id, vals)}
         onReopen={() => reopen(sec.id)}
       />
+
+      {/* ── Agenda Brasil */}
+      <AgendaBrasilNotes storagePrefix={storagePrefix} />
 
       {/* ── Print footer */}
       <div
