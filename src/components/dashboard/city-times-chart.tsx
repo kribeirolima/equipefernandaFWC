@@ -2,7 +2,9 @@
 
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { type Route, locationById, parseTimeMid } from "@/lib/data";
+import type { CityConfig } from "@/lib/types-deslocamentos";
+import { destinationById, routesFromOrigin } from "@/lib/types-deslocamentos";
+import { parseTimeMid } from "@/lib/time-utils";
 
 type ChartDatum = {
   name: string;
@@ -11,20 +13,21 @@ type ChartDatum = {
   pesado: number;
 };
 
-export function TimesChart({ routes }: { routes: Route[] }) {
+export function CityTimesChart({ config, originId }: { config: CityConfig; originId: string }) {
   const data = useMemo<ChartDatum[]>(() => {
-    return routes
+    return routesFromOrigin(config, originId)
       .map((r) => {
-        const dest = locationById(r.to);
+        const dest = destinationById(config, r.to);
+        const name = dest?.name ?? r.to;
         return {
-          name: dest?.name ?? r.to,
-          short: shortName(dest?.name ?? r.to),
+          name,
+          short: shortName(name),
           normal: Math.round(parseTimeMid(r.carN)),
           pesado: Math.round(parseTimeMid(r.carH)),
         };
       })
       .sort((a, b) => a.normal - b.normal);
-  }, [routes]);
+  }, [config, originId]);
 
   if (data.length === 0) {
     return (
@@ -81,9 +84,5 @@ function shortName(s: string): string {
     .replace(/^Aeroporto /, "")
     .replace(/Hotel /, "")
     .replace(/ \(.*\)$/, "")
-    .replace(/Stadium$/, "")
-    .replace(/Park$/, "Park")
-    .replace(/Square$/, "Sq.")
-    .replace(/Station$/, "St.")
     .trim();
 }

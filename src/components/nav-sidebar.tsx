@@ -5,11 +5,9 @@ import { PlaneTakeoff, MapPin, Camera, Calendar, Plane, Users, ChevronLeft, Rout
 import { EQUIPES, getEquipe } from "@/lib/equipes";
 
 const BRASIL_NAV = [
-  { href: "/",             label: "Deslocamentos",          description: "NYC / NJ",            Icon: PlaneTakeoff },
-  { href: "/proximidades", label: "Locais próximos",        description: "CDMX · NJ · Miami",   Icon: MapPin       },
+  { href: "/",             label: "Deslocamentos",          description: "Brasileirão",         Icon: PlaneTakeoff },
+  { href: "/proximidades", label: "Locais próximos",        description: "Locais úteis",        Icon: MapPin       },
   { href: "/locacoes",     label: "Locações",               description: "Ao vivo",             Icon: Camera       },
-  { href: "/ordem-dia",    label: "Ordem do Dia",           description: "CazéTV · Copa 2026",  Icon: Calendar     },
-  { href: "/passagens",    label: "Passagens e hospedagens",description: "Voos · Hotéis",       Icon: Plane        },
 ];
 
 const EQUIPE_SECTIONS = [

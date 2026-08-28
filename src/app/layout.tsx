@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Equipe Brasil · Fernanda Gentil",
   description:
-    "Tempos, custos, rotas e locais úteis para a delegação em Nova York, New Jersey, Cidade do México e Miami.",
+    "Tempos, custos, rotas e locais úteis para a delegação em Belo Horizonte, Porto Alegre, Curitiba, Chapecó e São José do Rio Preto / Mirassol.",
 };
 
 export default function RootLayout({

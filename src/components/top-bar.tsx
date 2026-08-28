@@ -2,15 +2,13 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { PlaneTakeoff, MapPin, Camera, Calendar, Plane, Menu, Radio, ChevronDown, Check } from "lucide-react";
+import { PlaneTakeoff, MapPin, Camera, Menu, Radio, ChevronDown, Check } from "lucide-react";
 import { EQUIPES, getEquipe } from "@/lib/equipes";
 
 const NAV = [
   { href: "/",             label: "Deslocamentos",  Icon: PlaneTakeoff },
   { href: "/proximidades", label: "Locais próximos", Icon: MapPin       },
   { href: "/locacoes",     label: "Locações",        Icon: Camera       },
-  { href: "/ordem-dia",    label: "Ordem do Dia",    Icon: Calendar     },
-  { href: "/passagens",    label: "Passagens",       Icon: Plane        },
 ];
 
 export function TopBar({
