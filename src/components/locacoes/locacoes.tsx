@@ -13,7 +13,7 @@ const CATEGORY_TABS: { value: CategoryFilter; label: string; Icon: LucideIcon }[
   { value: "all",         label: "Todas",          Icon: Layers },
   { value: "rooftop",     label: "Rooftops",       Icon: Building2 },
   { value: "park",        label: "Parques",        Icon: Trees },
-  { value: "brazilian",   label: "Brasileiros",    Icon: UtensilsCrossed },
+  { value: "brazilian",   label: "Gastronomia",    Icon: UtensilsCrossed },
   { value: "sports_bar",  label: "Sports bars",    Icon: Beer },
   { value: "observatory", label: "Observatórios",  Icon: Telescope },
 ];
@@ -62,8 +62,9 @@ export function Locacoes() {
           Locações para gravações ao vivo
         </h1>
         <p className="text-sm text-muted-foreground">
-          Rooftops, parques, restaurantes brasileiros, bares esportivos e observatórios
-          em NYC e NJ. Filtre por categoria, período do dia, custo e necessidade de permit.
+          Rooftops, parques, gastronomia e bares esportivos perto dos hotéis da equipe em
+          Belo Horizonte, Porto Alegre, Curitiba, Chapecó e São José do Rio Preto. Filtre por
+          categoria, período do dia, custo e necessidade de permit.
         </p>
       </div>
 
@@ -146,16 +147,14 @@ export function Locacoes() {
         </p>
         <ul className="ml-4 list-disc space-y-1 text-xs text-amber-900/90 dark:text-amber-200/90">
           <li>
-            <strong>NYC público:</strong> NYC MOME (nyc.gov/film) — gratuito, prazo
-            3–5 dias úteis, exige seguro de responsabilidade civil (~$1M).
+            <strong>Espaços públicos</strong> (parques, mirantes, praças): cada prefeitura tem
+            seu próprio processo de autorização para filmagem comercial — confirmar com a
+            secretaria de cultura/turismo local antes da externa.
           </li>
           <li>
-            <strong>NJ público:</strong> Cada município tem processo próprio (Hoboken,
-            Weehawken, Jersey City). Geralmente $25–$150, prazo 5–10 dias úteis.
-          </li>
-          <li>
-            <strong>Privado:</strong> Negociar diretamente com o estabelecimento.
-            Top of the Rock e SUMMIT cobram taxas específicas para uso comercial.
+            <strong>Espaços privados</strong> (rooftops, restaurantes, bares): negociar
+            diretamente com o estabelecimento — geralmente exigem consumação mínima ou taxa
+            para uso comercial do espaço.
           </li>
         </ul>
       </div>

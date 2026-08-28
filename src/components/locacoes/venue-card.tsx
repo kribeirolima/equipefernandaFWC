@@ -115,13 +115,17 @@ export function VenueCard({ venue }: { venue: Venue }) {
             <CategoryIcon className="mr-1 h-3 w-3" />
             {visual.label}
           </Badge>
-          <span className="inline-flex items-center gap-1 text-sm font-semibold">
-            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-            {venue.rating.toFixed(1)}
-            <span className="text-[11px] font-normal text-muted-foreground">
-              ({venue.reviewCount})
+          {venue.rating !== undefined && (
+            <span className="inline-flex items-center gap-1 text-sm font-semibold">
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              {venue.rating.toFixed(1)}
+              {venue.reviewCount && (
+                <span className="text-[11px] font-normal text-muted-foreground">
+                  ({venue.reviewCount})
+                </span>
+              )}
             </span>
-          </span>
+          )}
         </div>
         <div>
           <h3 className="text-base font-semibold leading-tight">{venue.name}</h3>
