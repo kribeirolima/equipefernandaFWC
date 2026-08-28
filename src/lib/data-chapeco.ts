@@ -6,7 +6,7 @@ export const CHAPECO_CONFIG: CityConfig = {
   cidade: "Chapecó",
   periodo: "Brasileirão",
   contatoLocal: {
-    nome: "Paula César",
+    nome: "Paulo César",
     telefone: "+55 49 8804-5434",
   },
   origins: [
