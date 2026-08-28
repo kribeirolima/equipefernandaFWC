@@ -4,18 +4,17 @@ import { useMemo, useState } from "react";
 import { VENUES, type LocationCategory } from "@/lib/locations";
 import { VenueCard } from "./venue-card";
 import { cn } from "@/lib/utils";
-import { Building2, Trees, UtensilsCrossed, Beer, Telescope, Layers } from "lucide-react";
+import { Trees, UtensilsCrossed, Beer, Flame, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type CategoryFilter = "all" | LocationCategory;
 
 const CATEGORY_TABS: { value: CategoryFilter; label: string; Icon: LucideIcon }[] = [
   { value: "all",         label: "Todas",          Icon: Layers },
-  { value: "rooftop",     label: "Rooftops",       Icon: Building2 },
+  { value: "torcida",     label: "Rua & Torcida",  Icon: Flame },
   { value: "park",        label: "Parques",        Icon: Trees },
   { value: "brazilian",   label: "Gastronomia",    Icon: UtensilsCrossed },
   { value: "sports_bar",  label: "Sports bars",    Icon: Beer },
-  { value: "observatory", label: "Observatórios",  Icon: Telescope },
 ];
 
 interface ToggleFilters {
@@ -62,9 +61,9 @@ export function Locacoes() {
           Locações para gravações ao vivo
         </h1>
         <p className="text-sm text-muted-foreground">
-          Rooftops, parques, gastronomia e bares esportivos perto dos hotéis da equipe em
-          Belo Horizonte, Porto Alegre, Curitiba, Chapecó e São José do Rio Preto. Filtre por
-          categoria, período do dia, custo e necessidade de permit.
+          Pontos de torcida, parques, gastronomia e bares esportivos perto dos hotéis da
+          equipe em Belo Horizonte, Porto Alegre, Curitiba, Chapecó e São José do Rio Preto.
+          Filtre por categoria, período do dia, custo e necessidade de permit.
         </p>
       </div>
 

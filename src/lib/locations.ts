@@ -3,7 +3,8 @@ export type LocationCategory =
   | "park"
   | "brazilian"
   | "sports_bar"
-  | "observatory";
+  | "observatory"
+  | "torcida";
 
 export type CostLevel = "free" | "$" | "$$" | "$$$" | "paid";
 export type DayNight = "yes" | "warning" | "no";
@@ -30,18 +31,32 @@ export interface Venue {
 export const VENUES: Venue[] = [
   // ── Belo Horizonte ──────────────────────────────────────
   {
-    id: "no-alto",
-    name: "No Alto",
-    category: "rooftop",
-    address: "Rua dos Tamóios, 200, 24º andar, Centro, Belo Horizonte - MG, 30120-050",
-    area: "Centro · Belo Horizonte",
-    hours: "Funciona como lounge/balada com DJs — consultar redes sociais",
-    goodDay: "no",
+    id: "somos-cruzeiro",
+    name: "Bar Somos Cruzeiro",
+    category: "torcida",
+    address: "Av. Antônio Abrahão Caram, 850, São José, Belo Horizonte - MG",
+    area: "São José · Belo Horizonte (entrada do Mineirão)",
+    hours: "Funciona em dias de jogo — consultar horário",
+    goodDay: "warning",
     goodNight: "yes",
-    cost: "$$",
+    cost: "$",
     permit: "venue_specific",
     tips:
-      "Rooftop mais tradicional de BH (ex-Top Bar, 60 anos de história), no 24º andar do Edifício Central, no hipercentro. Vista panorâmica principal da cidade — ótimo para captar o skyline à noite.",
+      "Fica praticamente na porta do Mineirão, na mesma avenida do estádio. Pega o clima da torcida chegando e saindo do jogo — no estilo das externas da CazéTV.",
+  },
+  {
+    id: "bar-monumental",
+    name: "Bar Monumental",
+    category: "torcida",
+    address: "Rua Coronel Pedro Paulo Penido, 495, Cidade Nova, Belo Horizonte - MG",
+    area: "Cidade Nova · Belo Horizonte",
+    hours: "Funciona em dias de jogo — consultar horário",
+    goodDay: "warning",
+    goodNight: "yes",
+    cost: "$",
+    permit: "venue_specific",
+    tips:
+      "Point tradicional da torcida cruzeirense, decoração esportiva e telões. Bom para captar a reação da torcida durante a partida.",
   },
   {
     id: "mirante-mangabeiras",
@@ -74,18 +89,32 @@ export const VENUES: Venue[] = [
 
   // ── Porto Alegre ─────────────────────────────────────────
   {
-    id: "tetto-poa",
-    name: "Tetto POA",
-    category: "rooftop",
-    address: "R. Caldas Júnior, 11, 9º andar (Xtay), Centro Histórico, Porto Alegre - RS",
-    area: "Centro Histórico · Porto Alegre",
-    hours: "Qua–Sáb 17h–3h · Dom 17h–0h",
-    goodDay: "no",
+    id: "dezenove-zero-nove",
+    name: "Dezenove Zero Nove",
+    category: "torcida",
+    address: "Av. Padre Cacique, 704, Praia de Belas, Porto Alegre - RS",
+    area: "Praia de Belas · Porto Alegre (em frente ao Beira-Rio)",
+    hours: "Funciona em dias de jogo — consultar horário",
+    goodDay: "warning",
     goodNight: "yes",
-    cost: "$$$",
+    cost: "$",
     permit: "venue_specific",
     tips:
-      "Rooftop mais novo de Porto Alegre, com plataforma de vidro suspensa (SkyGlass) e vista para o pôr do sol no Guaíba. Reserva antecipada recomendada — inaugurado recentemente, poucas avaliações ainda.",
+      "Bar bem em frente ao Beira-Rio — concentração colorada antes e depois do jogo, cenário direto para passagem ao vivo.",
+  },
+  {
+    id: "mercado-publico-poa-locacao",
+    name: "Mercado Público de Porto Alegre",
+    category: "torcida",
+    address: "Largo Jornalista Glênio Peres, 1, Centro, Porto Alegre - RS, 90020-050",
+    area: "Centro Histórico · Porto Alegre",
+    hours: "Seg–Sáb, horário comercial",
+    goodDay: "yes",
+    goodNight: "no",
+    cost: "free",
+    permit: "none",
+    tips:
+      "Ponto histórico cheio de movimento e cor local — ótimo para entrevistas de rua e captar o clima da cidade fora dos dias de jogo.",
   },
   {
     id: "churrasquita",
@@ -117,19 +146,18 @@ export const VENUES: Venue[] = [
 
   // ── Curitiba ─────────────────────────────────────────────
   {
-    id: "gards-rooftop",
-    name: "Gards Rooftop",
-    category: "rooftop",
-    address: "Rua Comendador Macedo, 630, 11º andar, Centro, Curitiba - PR",
-    area: "Alto da Glória · Curitiba",
-    rating: 4.4,
-    hours: "Almoço executivo, happy hour e noite — consultar redes sociais",
+    id: "choperia-arena-brahma",
+    name: "Choperia Arena Brahma",
+    category: "torcida",
+    address: "Rua Buenos Aires, 1260, Água Verde, Curitiba - PR, 80250-070 (dentro do complexo da Arena da Baixada)",
+    area: "Água Verde · Curitiba",
+    hours: "Ter–Sex 17h30–23h30 · Sáb 11h45–23h30 · Dom 11h45–17h30 (horário especial em dia de jogo)",
     goodDay: "yes",
     goodNight: "yes",
-    cost: "$$$",
+    cost: "$$",
     permit: "venue_specific",
     tips:
-      "Um dos rooftops mais bem avaliados de Curitiba (citado entre os 100 melhores bares do Brasil pela Exame), vista de 360° com a Serra do Mar ao fundo.",
+      "Choperia oficial do Athletico dentro da própria arena, com vista para o campo — direto no coração da torcida rubro-negra.",
   },
   {
     id: "cartolas",
@@ -163,6 +191,20 @@ export const VENUES: Venue[] = [
 
   // ── Chapecó ──────────────────────────────────────────────
   {
+    id: "feira-calcadao-chapeco",
+    name: "Feira Centro - Calçadão",
+    category: "torcida",
+    address: "Rua Benjamin Constant, 2, Centro, Chapecó - SC",
+    area: "Centro · Chapecó",
+    hours: "Feira: Qua e Sáb 7h–12h · Calçadão aberto o dia todo",
+    goodDay: "yes",
+    goodNight: "no",
+    cost: "free",
+    permit: "none",
+    tips:
+      "Feira e calçadão de pedestres no coração de Chapecó — bom para flagrantes de rua e entrevistas informais fora do horário de jogo.",
+  },
+  {
     id: "espetinho",
     name: "Espetiño",
     category: "brazilian",
@@ -193,19 +235,18 @@ export const VENUES: Venue[] = [
 
   // ── São José do Rio Preto / Mirassol ────────────────────
   {
-    id: "salsa-rooftop",
-    name: "Salsa Rooftop",
-    category: "rooftop",
-    address: "Av. Pres. Juscelino K. de Oliveira, 2000, Jardim Tarraf II, São José do Rio Preto - SP",
-    area: "Jardim Tarraf II · São José do Rio Preto",
-    rating: 4.2,
-    hours: "Pôr do sol com DJ aos domingos — consultar horário",
-    goodDay: "warning",
-    goodNight: "yes",
-    cost: "$$$",
-    permit: "venue_specific",
+    id: "calcadao-riopreto",
+    name: "Calçadão de São José do Rio Preto",
+    category: "torcida",
+    address: "Rua General Glicério, Centro, São José do Rio Preto - SP",
+    area: "Centro · São José do Rio Preto",
+    hours: "Seg–Sex 9h–18h · Sáb 9h–13h · Dom fechado",
+    goodDay: "yes",
+    goodNight: "no",
+    cost: "free",
+    permit: "none",
     tips:
-      "Principal rooftop da cidade, no terraço do Duo JK. Steakhouse com drinks autorais, boa opção para captar o pôr do sol.",
+      "Principal calçadão da cidade, ~20 mil pessoas por dia — ótimo para passagens de rua e captar o movimento popular.",
   },
   {
     id: "represa-municipal-locacao",

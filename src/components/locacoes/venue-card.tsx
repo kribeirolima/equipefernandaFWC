@@ -6,6 +6,7 @@ import {
   UtensilsCrossed,
   Beer,
   Telescope,
+  Flame,
   Star,
   Sun,
   Moon,
@@ -54,6 +55,11 @@ const CATEGORY_VISUAL: Record<
     Icon: Telescope,
     label: "Observatório",
     tone: "bg-sky-100 text-sky-800 dark:bg-sky-500/15 dark:text-sky-300",
+  },
+  torcida: {
+    Icon: Flame,
+    label: "Rua & Torcida",
+    tone: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300",
   },
 };
 

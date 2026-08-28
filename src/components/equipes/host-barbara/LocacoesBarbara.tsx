@@ -40,6 +40,7 @@ const CATEGORY_VISUAL: Record<
   brazilian:   { Icon: UtensilsCrossed, label: "Brasileiro",   tone: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300" },
   sports_bar:  { Icon: Beer,            label: "Sports Bar",   tone: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300" },
   observatory: { Icon: Telescope,       label: "Observatório", tone: "bg-sky-100 text-sky-800 dark:bg-sky-500/15 dark:text-sky-300" },
+  torcida:     { Icon: MapPin, label: "Torcida", tone: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300" },
 };
 
 const PERMIT_TONE = {
