@@ -160,6 +160,20 @@ export const VENUES: Venue[] = [
       "Choperia oficial do Athletico dentro da própria arena, com vista para o campo — direto no coração da torcida rubro-negra.",
   },
   {
+    id: "coxa-sports-bar",
+    name: "Coxa Sports Bar & Parrilla",
+    category: "torcida",
+    address: "Rua Ubaldino do Amaral, 37, Alto da Glória, Curitiba - PR, 80060-195 (dentro do complexo do Couto Pereira)",
+    area: "Alto da Glória · Curitiba",
+    hours: "Qua–Dom, incluindo dias de jogo do Coritiba (casa e fora) — consultar horário",
+    goodDay: "yes",
+    goodNight: "yes",
+    cost: "$$",
+    permit: "venue_specific",
+    tips:
+      "Bar oficial do Coritiba, aberto para o aniversário de 115 anos do clube, com decoração inspirada no estádio e mesas externas — direto na torcida coxa-branca.",
+  },
+  {
     id: "cartolas",
     name: "Cartolas Sports Bar",
     category: "sports_bar",

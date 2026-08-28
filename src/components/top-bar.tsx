@@ -53,7 +53,7 @@ export function TopBar({
       {/* Marca */}
       <div className="flex items-center gap-1.5 px-2 py-1.5 shrink-0">
         <Radio className="h-4 w-4 text-[#1A7A3C] shrink-0" />
-        <span className="text-[14px] font-medium text-gray-900">Equipe Brasil</span>
+        <span className="text-[14px] font-medium text-gray-900">Giro Brasileirão</span>
         <span className="text-[13px] font-normal text-gray-400 hidden sm:inline">· Brasileirão</span>
       </div>
 

@@ -49,7 +49,7 @@ export function Dashboard() {
             Deslocamentos · {config.emoji} {config.cidade}
           </h1>
           <p className="text-[13px] text-gray-400 mt-0.5">
-            Equipe Brasil · {config.periodo ?? "Brasileirão"}
+            Giro Brasileirão · {config.periodo ?? "Brasileirão"}
           </p>
         </div>
       </div>

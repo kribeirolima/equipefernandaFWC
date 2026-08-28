@@ -24,6 +24,14 @@ export const CWB_CONFIG: CityConfig = {
       category: "estadio",
     },
     {
+      id: "couto-pereira",
+      name: "Estádio Couto Pereira",
+      addr: "Rua Ubaldino do Amaral, 37, Alto da Glória, Curitiba - PR, 80060-195",
+      lat: -25.4183,
+      lng: -49.2632,
+      category: "estadio",
+    },
+    {
       id: "afonso-pena",
       name: "Aeroporto Afonso Pena (CWB)",
       addr: "Av. Rocha Pombo, s/n, São José dos Pinhais - PR, 83010-900",
@@ -76,6 +84,18 @@ export const CWB_CONFIG: CityConfig = {
       costCar: "~R$3",
       costTp: "~R$5,50",
       note: "Bloqueio de ruas ao redor da arena em dias de jogo",
+    },
+    {
+      from: "hotel",
+      to: "couto-pereira",
+      carN: "6–10 min",
+      carH: "12–18 min",
+      tp: "Linha Turismo/BRT nas proximidades, trecho final a pé",
+      dist: "2,5–3 km",
+      diff: "moderado",
+      costCar: "~R$5",
+      costTp: "~R$5,50",
+      note: "Bloqueio de ruas no entorno do Alto da Glória em dias de jogo do Coritiba",
     },
     {
       from: "hotel",
@@ -141,7 +161,7 @@ export const CWB_CONFIG: CityConfig = {
     },
     {
       category: "estadio",
-      text: "Dias de jogo têm bloqueio nas ruas ao redor da Arena da Baixada.",
+      text: "Dias de jogo têm bloqueio nas ruas ao redor da Arena da Baixada (Athletico) e do Couto Pereira (Coritiba) — confirme qual time manda o jogo antes de fechar a rota.",
     },
     {
       category: "aeroporto",

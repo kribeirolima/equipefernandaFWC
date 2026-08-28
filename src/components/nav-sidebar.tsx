@@ -80,7 +80,7 @@ export function NavSidebar({ open }: { open: boolean }) {
             </>
           ) : (
             <>
-              {/* Nav padrão — Equipe Brasil */}
+              {/* Nav padrão — Giro Brasileirão */}
               {BRASIL_NAV.map(({ href, label, description, Icon }) => {
                 const active = pathname === href;
                 return (

@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Equipe Brasil · Fernanda Gentil",
+  title: "Giro Brasileirão · Fernanda Gentil",
   description:
     "Tempos, custos, rotas e locais úteis para a delegação em Belo Horizonte, Porto Alegre, Curitiba, Chapecó e São José do Rio Preto / Mirassol.",
 };
