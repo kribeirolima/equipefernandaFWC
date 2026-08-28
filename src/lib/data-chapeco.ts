@@ -5,6 +5,10 @@ export const CHAPECO_CONFIG: CityConfig = {
   emoji: "🌽",
   cidade: "Chapecó",
   periodo: "Brasileirão",
+  contatoLocal: {
+    nome: "Paula César",
+    telefone: "+55 49 8804-5434",
+  },
   origins: [
     {
       id: "hotel",
@@ -131,6 +135,10 @@ export const CHAPECO_CONFIG: CityConfig = {
     {
       category: "geral",
       text: "Transporte público é limitado fora do Centro. Para o aeroporto e o Parque das Palmeiras, carro ou aplicativo é a opção mais confiável.",
+    },
+    {
+      category: "seguranca",
+      text: "Cidade pequena e tranquila em geral — atenção normal recomendada perto da Arena Condá em dia de jogo, quando o movimento de torcida aumenta bastante nas ruas do entorno.",
     },
   ],
 };

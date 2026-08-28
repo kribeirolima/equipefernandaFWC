@@ -9,9 +9,21 @@ export type LocationCategory =
 export type CostLevel = "free" | "$" | "$$" | "$$$" | "paid";
 export type DayNight = "yes" | "warning" | "no";
 export type PermitType = "none" | "nyc_mome" | "nj_municipal" | "venue_specific";
+export type PermitStatus = "nao_aplica" | "nao_iniciado" | "solicitado" | "aprovado" | "negado";
+
+export interface VenueOps {
+  permitResponsavel: string;
+  permitPrazo: string;
+  permitStatus: PermitStatus;
+  planoB: string;
+  sinalInfo: string;
+  energiaInfo: string;
+  estacionamentoInfo: string;
+}
 
 export interface Venue {
   id: string;
+  cityId: string;
   name: string;
   category: LocationCategory;
   address: string;
@@ -26,12 +38,41 @@ export interface Venue {
   permit: PermitType;
   permitNote?: string;
   tips: string;
+  ops?: Partial<VenueOps>;
+}
+
+function defaultOps(permit: PermitType): VenueOps {
+  if (permit === "none") {
+    return {
+      permitResponsavel: "Não aplicável (espaço público)",
+      permitPrazo: "—",
+      permitStatus: "nao_aplica",
+      planoB: "A definir com produção local",
+      sinalInfo: "A confirmar em visita técnica",
+      energiaInfo: "A confirmar em visita técnica",
+      estacionamentoInfo: "A confirmar em visita técnica",
+    };
+  }
+  return {
+    permitResponsavel: "Jurídico + produção local",
+    permitPrazo: "A confirmar",
+    permitStatus: "nao_iniciado",
+    planoB: "A definir com produção local",
+    sinalInfo: "A confirmar em visita técnica",
+    energiaInfo: "A confirmar em visita técnica",
+    estacionamentoInfo: "A confirmar em visita técnica",
+  };
+}
+
+export function venueOps(venue: Venue): VenueOps {
+  return { ...defaultOps(venue.permit), ...venue.ops };
 }
 
 export const VENUES: Venue[] = [
   // ── Belo Horizonte ──────────────────────────────────────
   {
     id: "somos-cruzeiro",
+    cityId: "bh",
     name: "Bar Somos Cruzeiro",
     category: "torcida",
     address: "Av. Antônio Abrahão Caram, 850, São José, Belo Horizonte - MG",
@@ -46,6 +87,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "bar-monumental",
+    cityId: "bh",
     name: "Bar Monumental",
     category: "torcida",
     address: "Rua Coronel Pedro Paulo Penido, 495, Cidade Nova, Belo Horizonte - MG",
@@ -60,6 +102,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "mirante-mangabeiras",
+    cityId: "bh",
     name: "Mirante do Mangabeiras",
     category: "park",
     address: "Rua Pedro José Pardo, 1.000, Mangabeiras, Belo Horizonte - MG",
@@ -74,6 +117,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "xapuri",
+    cityId: "bh",
     name: "Restaurante Xapuri",
     category: "brazilian",
     address: "R. Mandacaru, 260, Trevo/Pampulha, Belo Horizonte - MG",
@@ -90,6 +134,7 @@ export const VENUES: Venue[] = [
   // ── Porto Alegre ─────────────────────────────────────────
   {
     id: "dezenove-zero-nove",
+    cityId: "poa",
     name: "Dezenove Zero Nove",
     category: "torcida",
     address: "Av. Padre Cacique, 704, Praia de Belas, Porto Alegre - RS",
@@ -104,6 +149,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "mercado-publico-poa-locacao",
+    cityId: "poa",
     name: "Mercado Público de Porto Alegre",
     category: "torcida",
     address: "Largo Jornalista Glênio Peres, 1, Centro, Porto Alegre - RS, 90020-050",
@@ -118,6 +164,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "churrasquita",
+    cityId: "poa",
     name: "Churrasquita",
     category: "brazilian",
     address: "Rua Riachuelo, 1331, Centro Histórico, Porto Alegre - RS",
@@ -131,6 +178,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "parque-marinha-poa",
+    cityId: "poa",
     name: "Parque Marinha do Brasil",
     category: "park",
     address: "Av. Borges de Medeiros, 2035, Porto Alegre - RS, 90110-150",
@@ -147,6 +195,7 @@ export const VENUES: Venue[] = [
   // ── Curitiba ─────────────────────────────────────────────
   {
     id: "choperia-arena-brahma",
+    cityId: "cwb",
     name: "Choperia Arena Brahma",
     category: "torcida",
     address: "Rua Buenos Aires, 1260, Água Verde, Curitiba - PR, 80250-070 (dentro do complexo da Arena da Baixada)",
@@ -161,6 +210,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "coxa-sports-bar",
+    cityId: "cwb",
     name: "Coxa Sports Bar & Parrilla",
     category: "torcida",
     address: "Rua Ubaldino do Amaral, 37, Alto da Glória, Curitiba - PR, 80060-195 (dentro do complexo do Couto Pereira)",
@@ -175,6 +225,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "cartolas",
+    cityId: "cwb",
     name: "Cartolas Sports Bar",
     category: "sports_bar",
     address: "Rua Emiliano Perneta, 880, Batel, Curitiba - PR",
@@ -190,6 +241,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "jardim-botanico-cwb",
+    cityId: "cwb",
     name: "Jardim Botânico de Curitiba",
     category: "park",
     address: "R. Eng. Ostoja Roguski, s/n, Jardim Botânico, Curitiba - PR, 80210-390",
@@ -206,6 +258,7 @@ export const VENUES: Venue[] = [
   // ── Chapecó ──────────────────────────────────────────────
   {
     id: "feira-calcadao-chapeco",
+    cityId: "chapeco",
     name: "Feira Centro - Calçadão",
     category: "torcida",
     address: "Rua Benjamin Constant, 2, Centro, Chapecó - SC",
@@ -220,6 +273,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "espetinho",
+    cityId: "chapeco",
     name: "Espetiño",
     category: "brazilian",
     address: "Av. Getúlio Vargas, 1520, Centro, Chapecó - SC",
@@ -234,6 +288,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "parque-palmeiras-locacao",
+    cityId: "chapeco",
     name: "Parque das Palmeiras",
     category: "park",
     address: "Rua Marechal Mascarenhas de Moraes, Parque das Palmeiras, Chapecó - SC",
@@ -250,6 +305,7 @@ export const VENUES: Venue[] = [
   // ── São José do Rio Preto / Mirassol ────────────────────
   {
     id: "calcadao-riopreto",
+    cityId: "riopreto",
     name: "Calçadão de São José do Rio Preto",
     category: "torcida",
     address: "Rua General Glicério, Centro, São José do Rio Preto - SP",
@@ -264,6 +320,7 @@ export const VENUES: Venue[] = [
   },
   {
     id: "represa-municipal-locacao",
+    cityId: "riopreto",
     name: "Parque da Represa Municipal",
     category: "park",
     address: "Av. Lino José de Seixas, 1000, Jardim dos Seixas, São José do Rio Preto - SP, 15061-000",
@@ -285,6 +342,17 @@ export const PERMIT_LABEL: Record<
   nyc_mome: { label: "NYC MOME", tone: "amber" },
   nj_municipal: { label: "Município NJ", tone: "amber" },
   venue_specific: { label: "Negociar com o local", tone: "orange" },
+};
+
+export const PERMIT_STATUS_LABEL: Record<
+  PermitStatus,
+  { label: string; tone: "green" | "amber" | "orange" | "red" | "gray" }
+> = {
+  nao_aplica: { label: "Não se aplica", tone: "gray" },
+  nao_iniciado: { label: "Não iniciado", tone: "gray" },
+  solicitado: { label: "Solicitado", tone: "amber" },
+  aprovado: { label: "Aprovado", tone: "green" },
+  negado: { label: "Negado", tone: "red" },
 };
 
 export const COST_LABEL: Record<CostLevel, string> = {

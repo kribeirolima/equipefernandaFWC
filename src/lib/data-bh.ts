@@ -5,6 +5,10 @@ export const BH_CONFIG: CityConfig = {
   emoji: "🐷",
   cidade: "Belo Horizonte",
   periodo: "Brasileirão",
+  contatoLocal: {
+    nome: "Gabriel Marques",
+    telefone: "+55 31 9694-8181",
+  },
   origins: [
     {
       id: "hotel",
@@ -154,6 +158,10 @@ export const BH_CONFIG: CityConfig = {
     {
       category: "geral",
       text: "BH tem só uma linha de metrô, que não serve nenhum destino mapeado — considere carro/app para a maioria das rotas.",
+    },
+    {
+      category: "seguranca",
+      text: "Entorno do Mineirão fica bem movimentado em dia de jogo, mas esvazia rápido depois — evite ficar sozinho aguardando transporte na saída, prefira sair em grupo ou de app.",
     },
   ],
 };

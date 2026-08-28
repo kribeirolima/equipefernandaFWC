@@ -5,6 +5,10 @@ export const RIOPRETO_CONFIG: CityConfig = {
   emoji: "🐎",
   cidade: "São José do Rio Preto / Mirassol",
   periodo: "Brasileirão",
+  contatoLocal: {
+    nome: "Sem produtor local — equipe de SP se desloca até lá",
+    telefone: "",
+  },
   origins: [
     {
       id: "hotel",
@@ -111,6 +115,10 @@ export const RIOPRETO_CONFIG: CityConfig = {
     {
       category: "geral",
       text: "Mirassol e Rio Preto têm prefeituras e numeração de endereço distintas mesmo estando conurbadas — sempre confirme 'Mirassol' explicitamente no Maps.",
+    },
+    {
+      category: "seguranca",
+      text: "Trecho de rodovia entre Rio Preto e Mirassol tem pouca iluminação em alguns pontos à noite — evite fazer o trajeto sozinho de madrugada, prefira ir em grupo ou de app.",
     },
   ],
 };

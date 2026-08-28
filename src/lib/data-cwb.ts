@@ -5,6 +5,10 @@ export const CWB_CONFIG: CityConfig = {
   emoji: "🌲",
   cidade: "Curitiba",
   periodo: "Brasileirão",
+  contatoLocal: {
+    nome: "Fernando Nóbrega",
+    telefone: "+55 41 9911-9466",
+  },
   origins: [
     {
       id: "hotel",
@@ -170,6 +174,10 @@ export const CWB_CONFIG: CityConfig = {
     {
       category: "geral",
       text: "Clima instável — 'quatro estações num dia'. Leve isso em conta ao planejar deslocamentos externos.",
+    },
+    {
+      category: "seguranca",
+      text: "Aglomeração de torcida se concentra nas ruas ao redor das arenas 1-2h antes/depois do jogo — evite atravessar o meio da concentração sozinho com equipamento à mostra.",
     },
   ],
 };

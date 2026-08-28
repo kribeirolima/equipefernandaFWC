@@ -14,12 +14,19 @@ import {
   ExternalLink,
   AlertTriangle,
   XCircle,
+  FileCheck2,
+  RotateCcw,
+  Signal,
+  Zap,
+  CircleParking,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   COST_LABEL,
   PERMIT_LABEL,
+  PERMIT_STATUS_LABEL,
+  venueOps,
   type DayNight,
   type LocationCategory,
   type Venue,
@@ -69,6 +76,14 @@ const PERMIT_TONE = {
   orange: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300",
 } as const;
 
+const STATUS_TONE = {
+  green: "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300",
+  amber: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300",
+  orange: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300",
+  red: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300",
+  gray: "bg-zinc-100 text-zinc-600 dark:bg-zinc-500/15 dark:text-zinc-400",
+} as const;
+
 function PeriodBadge({
   status,
   Icon,
@@ -112,6 +127,8 @@ export function VenueCard({ venue }: { venue: Venue }) {
   const visual = CATEGORY_VISUAL[venue.category];
   const CategoryIcon = visual.Icon;
   const permit = PERMIT_LABEL[venue.permit];
+  const ops = venueOps(venue);
+  const statusLabel = PERMIT_STATUS_LABEL[ops.permitStatus];
 
   return (
     <Card className="flex flex-col overflow-hidden p-0">
@@ -174,6 +191,44 @@ export function VenueCard({ venue }: { venue: Venue }) {
         )}
 
         <p className="flex-1 text-xs leading-relaxed text-foreground/80">{venue.tips}</p>
+
+        <div className="space-y-1.5 rounded-md border border-dashed border-border/70 p-2.5 text-[11px] text-muted-foreground">
+          <div className="flex items-start gap-1.5">
+            <FileCheck2 className="mt-0.5 h-3 w-3 shrink-0" />
+            <span>
+              Permit: <strong className="font-medium text-foreground">{ops.permitResponsavel}</strong>
+              {" · prazo "}
+              {ops.permitPrazo}
+              {" · "}
+              <span
+                className={cn(
+                  "inline-flex items-center rounded px-1 py-0.5 text-[10px] font-medium",
+                  STATUS_TONE[statusLabel.tone]
+                )}
+              >
+                {statusLabel.label}
+              </span>
+            </span>
+          </div>
+          <div className="flex items-start gap-1.5">
+            <RotateCcw className="mt-0.5 h-3 w-3 shrink-0" />
+            <span>Plano B: {ops.planoB}</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span className="inline-flex items-center gap-1">
+              <Signal className="h-3 w-3 shrink-0" />
+              {ops.sinalInfo}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Zap className="h-3 w-3 shrink-0" />
+              {ops.energiaInfo}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <CircleParking className="h-3 w-3 shrink-0" />
+              {ops.estacionamentoInfo}
+            </span>
+          </div>
+        </div>
 
         <div className="mt-auto flex items-center justify-between border-t pt-3">
           <span className="text-[11px] uppercase tracking-wide text-muted-foreground">

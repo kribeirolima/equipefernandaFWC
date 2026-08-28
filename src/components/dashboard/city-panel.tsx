@@ -12,6 +12,7 @@ import {
   Train,
   Info,
   AlertTriangle,
+  ShieldAlert,
 } from "lucide-react";
 import type { CityAlert, CityConfig } from "@/lib/types-deslocamentos";
 import { destinationById, originById, routesFromOrigin } from "@/lib/types-deslocamentos";
@@ -187,11 +188,13 @@ const ALERT_META = {
   aeroporto: { label: "Aeroporto", type: "info" as const },
   estadio: { label: "Estádio", type: "info" as const },
   geral: { label: "Geral", type: "info" as const },
+  seguranca: { label: "Segurança", type: "danger" as const },
 };
 
 const ALERT_STYLE = {
   warn: { border: "#B8860B", bg: "#FFFBEB", icon: AlertTriangle, iconColor: "#B8860B", tagBg: "#FFFBEB", tagColor: "#92400E" },
   info: { border: "#1565C0", bg: "#EFF6FF", icon: Info, iconColor: "#1565C0", tagBg: "#EFF6FF", tagColor: "#1E40AF" },
+  danger: { border: "#DC2626", bg: "#FEF2F2", icon: ShieldAlert, iconColor: "#DC2626", tagBg: "#FEF2F2", tagColor: "#DC2626" },
 };
 
 function AlertCard({ alert }: { alert: CityAlert }) {

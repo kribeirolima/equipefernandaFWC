@@ -6,6 +6,8 @@ import { VenueCard } from "./venue-card";
 import { cn } from "@/lib/utils";
 import { Trees, UtensilsCrossed, Beer, Flame, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { CITY_CONFIGS } from "@/lib/cities";
+import { useCity } from "@/lib/city-context";
 
 type CategoryFilter = "all" | LocationCategory;
 
@@ -32,6 +34,8 @@ const TOGGLE_TABS: { key: keyof ToggleFilters; label: string }[] = [
 ];
 
 export function Locacoes() {
+  const { cityId } = useCity();
+  const cidade = CITY_CONFIGS.find((c) => c.id === cityId) ?? CITY_CONFIGS[0];
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [toggles, setToggles] = useState<ToggleFilters>({
     day: false,
@@ -42,6 +46,7 @@ export function Locacoes() {
 
   const filtered = useMemo(() => {
     return VENUES.filter((v) => {
+      if (v.cityId !== cityId) return false;
       if (category !== "all" && v.category !== category) return false;
       if (toggles.day && v.goodDay !== "yes") return false;
       if (toggles.night && v.goodNight !== "yes") return false;
@@ -49,7 +54,7 @@ export function Locacoes() {
       if (toggles.noPermit && v.permit !== "none") return false;
       return true;
     });
-  }, [category, toggles]);
+  }, [cityId, category, toggles]);
 
   const toggle = (key: keyof ToggleFilters) =>
     setToggles((s) => ({ ...s, [key]: !s[key] }));
@@ -58,12 +63,11 @@ export function Locacoes() {
     <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Locações para gravações ao vivo
+          Locações para gravações ao vivo · {cidade.emoji} {cidade.cidade}
         </h1>
         <p className="text-sm text-muted-foreground">
-          Pontos de torcida, parques, gastronomia e bares esportivos perto dos hotéis da
-          equipe em Belo Horizonte, Porto Alegre, Curitiba, Chapecó e São José do Rio Preto.
-          Filtre por categoria, período do dia, custo e necessidade de permit.
+          Pontos de torcida, parques, gastronomia e bares esportivos perto do hotel da
+          equipe. Filtre por categoria, período do dia, custo e necessidade de permit.
         </p>
       </div>
 

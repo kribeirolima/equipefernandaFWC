@@ -5,6 +5,10 @@ export const POA_CONFIG: CityConfig = {
   emoji: "🧉",
   cidade: "Porto Alegre",
   periodo: "Brasileirão",
+  contatoLocal: {
+    nome: "Douglas Demoliner",
+    telefone: "+55 51 8610-2209",
+  },
   origins: [
     {
       id: "hotel",
@@ -150,6 +154,10 @@ export const POA_CONFIG: CityConfig = {
     {
       category: "geral",
       text: "A enchente histórica de maio/2024 ainda deixa sequelas em parte da infraestrutura de transporte.",
+    },
+    {
+      category: "seguranca",
+      text: "Centro Histórico esvazia à noite fora de dias de evento — evite caminhar sozinho após o horário comercial, priorize app/carro para deslocamentos noturnos.",
     },
   ],
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Heart, Pill, ShoppingCart, UtensilsCrossed, Shield, MapPin } from "lucide-react";
@@ -9,6 +11,7 @@ import {
 } from "@/lib/nearby";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCity } from "@/lib/city-context";
 
 const CATEGORY_VISUAL: Record<
   NearbyCategory["id"],
@@ -42,18 +45,21 @@ const CATEGORY_VISUAL: Record<
 };
 
 export function Proximidades() {
+  const { cityId } = useCity();
+  const addresses = NEARBY_ADDRESSES.filter((a) => a.id === cityId);
+
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">Locais próximos</h1>
         <p className="text-sm text-muted-foreground">
-          Para cada endereço, abre o Google Maps já filtrando por categoria — hospitais,
+          Para o hotel da equipe, abre o Google Maps já filtrando por categoria — hospitais,
           farmácias, supermercados, restaurantes e bases policiais nas proximidades.
         </p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-        {NEARBY_ADDRESSES.map((addr) => (
+        {addresses.map((addr) => (
           <Card key={addr.id} className="overflow-hidden">
             <CardHeader className="space-y-2 border-b bg-muted/30">
               <div className="flex items-start justify-between gap-2">

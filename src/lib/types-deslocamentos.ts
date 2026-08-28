@@ -1,6 +1,18 @@
 export type Difficulty = "facil" | "moderado" | "dificil";
-export type AlertCategory = "transito" | "aeroporto" | "estadio" | "geral";
+export type AlertCategory = "transito" | "aeroporto" | "estadio" | "geral" | "seguranca";
 export type DestCategory = "aeroporto" | "estadio" | "ponto_turistico" | "hotel" | "outro";
+
+export interface CityContact {
+  nome: string;
+  telefone: string;
+}
+
+export interface CityMatchInfo {
+  dataHora?: string;
+  nascerSol?: string;
+  porSol?: string;
+  previsaoTempo?: string;
+}
 
 export interface CityOrigin {
   id: string;
@@ -42,6 +54,8 @@ export interface CityConfig {
   emoji: string;
   cidade: string;
   periodo?: string;
+  contatoLocal?: CityContact;
+  jogo?: CityMatchInfo;
   origins: CityOrigin[];
   destinations: CityDestination[];
   routes: CityRoute[];
