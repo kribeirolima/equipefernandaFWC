@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PlaneTakeoff, MapPin, Camera, Calendar, Plane, Users, ChevronLeft, Route } from "lucide-react";
-import { EQUIPES, getEquipe } from "@/lib/equipes";
+import { PlaneTakeoff, MapPin, Camera, Calendar, Plane, ChevronLeft, Route } from "lucide-react";
+import { getEquipe } from "@/lib/equipes";
 
 const BRASIL_NAV = [
   { href: "/",             label: "Deslocamentos",          description: "Brasileirão",         Icon: PlaneTakeoff },
@@ -25,8 +25,6 @@ export function NavSidebar({ open }: { open: boolean }) {
   const equipeMatch = pathname.match(/^\/equipes\/([^/]+)(\/.*)?$/);
   const equipeSlug = equipeMatch?.[1];
   const currentEquipe = equipeSlug ? getEquipe(equipeSlug) : null;
-
-  const isEquipesIndex = pathname === "/equipes";
 
   return (
     <>
@@ -107,31 +105,6 @@ export function NavSidebar({ open }: { open: boolean }) {
                   </Link>
                 );
               })}
-
-              {/* Separador + outras equipes */}
-              {open && (
-                <p className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
-                  Outras Equipes
-                </p>
-              )}
-              <Link
-                href="/equipes"
-                title={!open ? "Selecionar equipe" : undefined}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors border ${
-                  isEquipesIndex
-                    ? "border-transparent"
-                    : "text-gray-500 hover:text-gray-800 hover:bg-gray-50 border-transparent"
-                }`}
-                style={isEquipesIndex ? { background: "rgba(26,122,60,0.07)", color: "#1A7A3C" } : undefined}
-              >
-                <Users className="h-4 w-4 shrink-0" style={isEquipesIndex ? { color: "#1A7A3C" } : undefined} />
-                {open && (
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-[13px] font-medium leading-tight">Selecionar equipe</span>
-                    <span className="text-[11px] text-gray-400">{EQUIPES.length} equipes</span>
-                  </div>
-                )}
-              </Link>
             </>
           )}
         </nav>
